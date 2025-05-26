@@ -15,7 +15,7 @@ server.get("/", (req, res) => {
 	res.send("¡Servidor funcionando!");
 });
 
-// Middleware 404
+// Implementar Middleware 404
 server.use((req, res, next) => {
 	res.status(404).json({ message: "Ruta no encontrada" });
 });
