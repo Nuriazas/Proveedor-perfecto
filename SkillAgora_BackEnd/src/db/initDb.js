@@ -24,6 +24,7 @@ const initDb = async () => {
         
         console.log('Creando tablas...');
 
+        // Crear las tablas necesarias
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
