@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import errorHandler from "./errors/errorHandler.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 // Importar dependencias
 const server = express();
@@ -26,5 +27,10 @@ server.use((req, res, next) => {
 
 // Middleware de gestión de errores importado
 server.use(errorHandler);
+
+// Middleware de Verificación de Autenticación
+server.get("/protected", authMiddleware, (req, res) => {
+    res.send("Acceso a ruta protegida, usuario autenticado.");
+});
 
 export default server;
