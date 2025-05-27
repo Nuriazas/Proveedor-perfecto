@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import errorHandler from "./errors/errorHandler.js";
 
 // Importar dependencias
 const server = express();
@@ -22,5 +23,8 @@ server.get("/", (req, res) => {
 server.use((req, res, next) => {
 	res.status(404).json({ message: "Ruta no encontrada" });
 });
+
+// Middleware de gestión de errores importado
+server.use(errorHandler);
 
 export default server;
