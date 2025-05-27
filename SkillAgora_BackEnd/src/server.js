@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import errorHandler from "./errors/errorHandler.js";
-import authMiddleware from "../middleware/authMiddleware.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 // Importar dependencias
 const server = express();
@@ -14,6 +14,9 @@ server.use('/public', express.static('public'));
 
 // Cargar las variables de entorno desde el archivo .env
 dotenv.config();
+
+
+
 
 // Ruta de prueba
 server.get("/", (req, res) => {
