@@ -1,4 +1,6 @@
 import getPool from './getPool.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const initDb = async () => {
     try {
@@ -134,7 +136,7 @@ const initDb = async () => {
             )
             `) 
     await pool.query(`
-            CREATE TABLE IF NOT EXISTS notification_histoty (
+            CREATE TABLE IF NOT EXISTS notification_history (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
                 content TEXT,

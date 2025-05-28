@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
+dotenv.config();
 import mysql from "mysql2/promise";
 import generateErrorsUtils from "../utils/generateErrorsUtils.js";
 
-dotenv.config();
+
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_NAME } = process.env;
 
