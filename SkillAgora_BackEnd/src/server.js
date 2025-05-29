@@ -3,7 +3,7 @@ import express from "express";
 import errorHandler from "./errors/errorHandler.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import cors from 'cors';
-
+import usersRoutes from "./router/userRouter.js";
 
 import routes from "./router/index.js";
 // Importar dependencias
@@ -20,8 +20,6 @@ server.use('/public', express.static('public'));
 dotenv.config();
 
 
-
-
 // Ruta de prueba
 server.get("/", (req, res) => {
 	res.send("¡Servidor funcionando!");
@@ -35,6 +33,7 @@ server.get("/protected", authMiddleware, (req, res) => {
 	
 });
 
+server.use("/api/users", usersRoutes);
 
 // Importar las rutas del router principal
 server.use(routes)
@@ -47,6 +46,7 @@ server.use((req, res, next) => {
 });
 // Middleware de gestión de errores importado
 server.use(errorHandler);
+
 
 
 

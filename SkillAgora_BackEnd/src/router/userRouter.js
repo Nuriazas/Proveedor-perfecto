@@ -1,8 +1,11 @@
 import express from 'express';
+import authenticateUser from "../middleware/authMiddleware.js";
+
 import  
 {registerUserController, 
     loginUserController,
-    validateUserController
+    validateUserController,
+    getProfile
 }  from '../controllers/users/index.js';
 
 // Creando un router para manejar las rutas relacionadas con los usuarios
@@ -18,10 +21,8 @@ router.get('/users/validate/:registrationCode', validateUserController);
 // Ruta para iniciar sesión de usuario
 router.post('/users/login', loginUserController);
 
-
-
-
-
+//Ruta para la información del usuario
+router.get("/profile", authenticateUser, getProfile);
 
 
 
