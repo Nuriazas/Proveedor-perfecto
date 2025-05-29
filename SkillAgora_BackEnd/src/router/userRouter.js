@@ -1,12 +1,13 @@
 import express from 'express';
-import authenticateUser from "../middleware/authMiddleware.js";
 
 import  
 {registerUserController, 
     loginUserController,
     validateUserController,
-    getProfile
+    getProfile,
+    changePasswordUser
 }  from '../controllers/users/index.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 // Creando un router para manejar las rutas relacionadas con los usuarios
 const router = express.Router();
@@ -22,8 +23,9 @@ router.get('/users/validate/:registrationCode', validateUserController);
 router.post('/users/login', loginUserController);
 
 //Ruta para la información del usuario
-router.get("/profile", authenticateUser, getProfile);
+router.get("/profile", authMiddleware, getProfile);
 
-
+//Ruta para el cvambio de contraseña
+router.post('/change-password', authMiddleware, changePasswordUser);
 
 export default router;
