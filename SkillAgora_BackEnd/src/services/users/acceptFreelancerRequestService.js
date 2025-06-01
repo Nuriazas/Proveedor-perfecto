@@ -13,8 +13,17 @@ const acceptFreelancerRegisterService = async (id) => {
 		// Actualizamos el rol del usuario a 'freelancer' según el ID proporcionado
 		const [userUpdateToFreelancer] = await pool.query(
 			`
-        UPDATE users SET role = 'freelancer' WHERE id = ?
-    `,
+			UPDATE users SET role = 'freelancer' WHERE id = ?
+		`,
+			[id]
+		);
+
+		// Actualizamos la solicitud de freelancer a 'approved' en la tabla freelancer_requests
+		const [requestUpdate] = await pool.query(
+			`
+			UPDATE freelancer_requests SET status = 'approved', updated_at = CURRENT_TIMESTAMP 
+			WHERE user_id = ? AND status = 'pending'
+			`,
 			[id]
 		);
 

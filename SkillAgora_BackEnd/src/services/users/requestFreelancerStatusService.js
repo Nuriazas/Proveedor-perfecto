@@ -10,7 +10,7 @@ const requestFreelancerStatusService = async (userId) => {
 		const pool = await getPool();
 		// Verificar si ya tiene una solicitud pendiente
 		const [existing] = await pool.query(
-			`SELECT * FROM freelancer_requests WHERE user_id = ? AND status = 'pending'`,
+			`SELECT * FROM freelancer_requests WHERE user_id = ?`,
 			[userId]
 		);
 
