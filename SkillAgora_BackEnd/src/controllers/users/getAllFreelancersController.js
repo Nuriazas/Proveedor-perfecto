@@ -3,23 +3,22 @@ import getAllFreelancers from "../../services/users/getAllFreelancers.js";
 
 // Controlador para manejar la petición de obtener todos los freelancers
 async function getAllFreelancersController(req, res) {
-    try {
-        // Llamamos al servicio para obtener la lista de freelancers
-        const freelancers = await getAllFreelancers();
-        
-        // Enviamos respuesta exitosa con los freelancers
-        res.json({
-            success: true,
-            data: freelancers,
-        });
-        
-    } catch (error) {
-        // Si hay error, enviamos respuesta de error con mensaje
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        });
-    }
+	try {
+		// Llamamos al servicio para obtener la lista de freelancers
+		const freelancers = await getAllFreelancers();
+
+		// Enviamos respuesta exitosa con los freelancers
+		res.json({
+			success: true,
+			data: freelancers,
+		});
+	} catch (error) {
+		// Si hay error, enviamos respuesta de error con mensaje
+		res.status(500).json({
+			success: false,
+			message: error.message,
+		});
+	}
 }
 
 export default getAllFreelancersController;

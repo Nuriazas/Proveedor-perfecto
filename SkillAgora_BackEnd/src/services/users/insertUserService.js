@@ -5,54 +5,49 @@ import sendMailBrevoUtils from "../../utils/sendMailBrevoUtils.js";
 
 // Servicio para insertar un nuevo usuario en la base de datos
 const insertUserService = async (email, password, registrationCode) => {
+	const pool = await getPool();
 
-    const pool = await getPool();
-
-    // Verificar si el usuario ya existe
-    const [user] = await pool.query( 
-        `
+	// Verificar si el usuario ya existe
+	const [user] = await pool.query(
+		`
         SELECT * FROM users WHERE email = ?        
         
         
-        `,[email]
-    );
+        `,
+		[email]
+	);
 
+	// Si el usuario ya existe, lanzar un error
+	if (user.length) {
+		throw generateErrorsUtils("El usuario ya existe", 409);
+	}
 
-    // Si el usuario ya existe, lanzar un error
-    if (user.length) {
-        throw generateErrorsUtils("El usuario ya existe", 409);
-    }
+	// Logica para envio de Email
+	const emailSubject = "Bienvenido a SkillAgora. Activa tu cuenta";
 
-
-    // Logica para envio de Email
-    const emailSubject = "Bienvenido a SkillAgora. Activa tu cuenta";
-
-    const emailBody = `
+	const emailBody = `
 
         <html>
-           <body>
+            <body>
                 <h1>Bienvenido a SkillAgora</h1>
                 <p>Para activar tu cuenta, haz clic en el siguiente enlace:</p>
                 <a href="${process.env.VITE_URL_API}/validate/${registrationCode}">Activar cuenta</a>
-           </body> 
+            </body> 
         </html>
     `;
 
-    await sendMailBrevoUtils(email, emailSubject, emailBody);
+	await sendMailBrevoUtils(email, emailSubject, emailBody);
 
-    // Encriptar la contraseña
-    const hashedPassword = await bcrypt.hash(password, 10);
+	// Encriptar la contraseña
+	const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.query(
-        `
+	await pool.query(
+		`
         INSERT INTO users (email, password, registrationCode) 
         VALUES (?, ?, ?)
         `,
-        [email, hashedPassword, registrationCode]
-    );
-    
-    
-}
+		[email, hashedPassword, registrationCode]
+	);
+};
 
 export default insertUserService;
-

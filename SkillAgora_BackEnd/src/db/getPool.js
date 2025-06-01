@@ -3,8 +3,6 @@ dotenv.config();
 import mysql from "mysql2/promise";
 import generateErrorsUtils from "../utils/generateErrorsUtils.js";
 
-
-
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_NAME } = process.env;
 
 let pool;
@@ -30,7 +28,7 @@ const getPool = async () => {
 			});
 		}
 
-		return  pool; // Devolver el objeto pool directamente
+		return pool; // Devolver el objeto pool directamente
 	} catch (error) {
 		console.log(error);
 		throw generateErrorsUtils(

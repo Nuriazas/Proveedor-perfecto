@@ -5,14 +5,14 @@ import getPool from "../../db/getPool.js";
 
 // Servicio para obtener servicios populares/destacados ordenados por popularidad
 const getFeaturedServices = async () => {
-    let pool;
+	let pool;
 
-    try {
-        // Obtenemos la conexión a la base de datos
-        pool = await getPool();
+	try {
+		// Obtenemos la conexión a la base de datos
+		pool = await getPool();
 
-        // Query SQL compleja que obtiene servicios con toda su información
-        const query = `
+		// Query SQL compleja que obtiene servicios con toda su información
+		const query = `
             SELECT 
                 s.id,
                 s.title,
@@ -21,9 +21,9 @@ const getFeaturedServices = async () => {
                 u.name as freelancer_name,
                 c.name as category_name,
                 (SELECT sm.media_url
-                 FROM service_media sm
-                 WHERE sm.service_id = s.id AND sm.type = 'image'
-                 LIMIT 1) as main_image,
+                FROM service_media sm
+                WHERE sm.service_id = s.id AND sm.type = 'image'
+                LIMIT 1) as main_image,
                 COALESCE(AVG(r.rating), 0) as rating,
                 COUNT(DISTINCT o.id) as total_orders
             FROM services s
@@ -35,33 +35,32 @@ const getFeaturedServices = async () => {
             ORDER BY total_orders DESC, rating DESC, s.created_at DESC
         `;
 
-        // Explicación del SQL:
-        // - SELECT: obtenemos datos del servicio, freelancer, categoría, imagen, rating y órdenes
-        // - INNER JOIN: unimos servicios con usuarios y categorías (datos obligatorios)
-        // - LEFT JOIN: unimos con órdenes y reviews (pueden no existir)
-        // - Subconsulta: obtenemos la primera imagen de cada servicio
-        // - COALESCE: si no hay rating, ponemos 0
-        // - GROUP BY: agrupamos para calcular promedios y conteos
-        // - ORDER BY: ordenamos por popularidad (más órdenes primero)
+		// Explicación del SQL:
+		// - SELECT: obtenemos datos del servicio, freelancer, categoría, imagen, rating y órdenes
+		// - INNER JOIN: unimos servicios con usuarios y categorías (datos obligatorios)
+		// - LEFT JOIN: unimos con órdenes y reviews (pueden no existir)
+		// - Subconsulta: obtenemos la primera imagen de cada servicio
+		// - COALESCE: si no hay rating, ponemos 0
+		// - GROUP BY: agrupamos para calcular promedios y conteos
+		// - ORDER BY: ordenamos por popularidad (más órdenes primero)
 
-        // Ejecutamos la consulta en la base de datos
-        const [featuredServices] = await pool.execute(query);
+		// Ejecutamos la consulta en la base de datos
+		const [featuredServices] = await pool.execute(query);
 
-        // Procesamiento post-consulta: formateamos el rating a 1 decimal
-        featuredServices.forEach((service) => {
-            service.rating = parseFloat(service.rating).toFixed(1);
-        });
+		// Procesamiento post-consulta: formateamos el rating a 1 decimal
+		featuredServices.forEach((service) => {
+			service.rating = parseFloat(service.rating).toFixed(1);
+		});
 
-        // Devolvemos los servicios destacados al controlador
-        return featuredServices;
-        
-    } catch (error) {
-        // Si hay error, lo mostramos en consola para debugging
-        console.error("Error al obtener servicios destacados:", error);
-        
-        // Re-lanzamos el error para que el controlador lo maneje
-        throw error;
-    }
+		// Devolvemos los servicios destacados al controlador
+		return featuredServices;
+	} catch (error) {
+		// Si hay error, lo mostramos en consola para debugging
+		console.error("Error al obtener servicios destacados:", error);
+
+		// Re-lanzamos el error para que el controlador lo maneje
+		throw error;
+	}
 };
 
 export default getFeaturedServices;

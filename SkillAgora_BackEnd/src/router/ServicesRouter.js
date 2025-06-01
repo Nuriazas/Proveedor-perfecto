@@ -1,16 +1,30 @@
-import express from 'express';
-import { getCategoriesController, getFeaturedServicesController, uploadServicePhotoController } from '../controllers/servicesControllers/index.js';
+import express from "express";
+import {
+	getCategoriesController,
+	getFeaturedServicesController,
+	uploadServicePhotoController,
+	getServiceStatisticsController,
+	updateServiceController,
+} from "../controllers/servicesControllers/index.js";
 
 // Creando un router para manejar las rutas relacionadas con los servicios
-const ServicesRouter = express.Router();
+const servicesRouter = express.Router();
 
 // Ruta para subir una foto de un servicio
-ServicesRouter.post('/services/upload', uploadServicePhotoController);
+servicesRouter.post("/services/upload", uploadServicePhotoController);
 
 // GET /api/services/categories
-ServicesRouter.get('/services/categories', getCategoriesController);
+servicesRouter.get("/services/categories", getCategoriesController);
 
 // GET /api/services/featured?limit=6
-ServicesRouter.get('/services/featured', getFeaturedServicesController);
+servicesRouter.get("/services/featured", getFeaturedServicesController);
 
-export default ServicesRouter;
+const router = express.Router();
+
+// Endpoint detalle de un producto/servicio
+servicesRouter.get("/service/statistics", getServiceStatisticsController);
+
+// Enpoint actualización servicio/producto
+servicesRouter.put("/service/update/:id", updateServiceController);
+
+export default servicesRouter;
