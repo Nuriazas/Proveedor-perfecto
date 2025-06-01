@@ -1,4 +1,4 @@
-// Servicio Endpoint para aceptar el registro de un proveedor (administrador)
+// Servicio Endpoint para aceptar status freelancer (administrador)
 
 // Importamos la función para obtener conexión a la base de datos
 import getPool from "../../db/getPool.js";

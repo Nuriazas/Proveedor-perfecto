@@ -1,7 +1,7 @@
-// Controlador Endpoint lista solicitudes de contacto
+// Controller Endpoint lista solicitudes de contacto
 
 // Importamos el servicio que obtiene las notificaciones de solicitudes de contacto
-import getContactRequestNotificationsService from "../../services/services/getContactRequestNotificationsService.js";
+import getContactRequestNotificationsService from "../../services/notifications/getContactRequestNotificationsService.js";
 
 // Controlador para manejar la petición de notificaciones de contacto
 const getContactRequestNotificationsController = async (req, res, next) => {
