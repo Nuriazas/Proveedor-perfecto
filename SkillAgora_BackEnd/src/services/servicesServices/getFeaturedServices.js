@@ -1,15 +1,17 @@
-// SkillAgora_BackEnd/src/services/entries/gigsService.js
+// Ruta: SkillAgora_BackEnd/src/services/entries/gigsService.js
+
+// Importamos la función que nos da la conexión a la base de datos
 import getPool from "../../db/getPool.js";
 
-// Servicio extra por implementar
-
-// Servicio para obtener gigs populares/destacados
+// Servicio para obtener servicios populares/destacados ordenados por popularidad
 const getFeaturedServices = async () => {
     let pool;
 
     try {
+        // Obtenemos la conexión a la base de datos
         pool = await getPool();
 
+        // Query SQL compleja que obtiene servicios con toda su información
         const query = `
             SELECT 
                 s.id,
@@ -18,9 +20,9 @@ const getFeaturedServices = async () => {
                 s.delivery_time_days,
                 u.name as freelancer_name,
                 c.name as category_name,
-                (SELECT sm.media_url 
+                (SELECT sm.media_url
                  FROM service_media sm
-                 WHERE sm.service_id = s.id AND sm.type = 'image' 
+                 WHERE sm.service_id = s.id AND sm.type = 'image'
                  LIMIT 1) as main_image,
                 COALESCE(AVG(r.rating), 0) as rating,
                 COUNT(DISTINCT o.id) as total_orders
@@ -33,18 +35,40 @@ const getFeaturedServices = async () => {
             ORDER BY total_orders DESC, rating DESC, s.created_at DESC
         `;
 
+        // Explicación del SQL:
+        // - SELECT: obtenemos datos del servicio, freelancer, categoría, imagen, rating y órdenes
+        // - INNER JOIN: unimos servicios con usuarios y categorías (datos obligatorios)
+        // - LEFT JOIN: unimos con órdenes y reviews (pueden no existir)
+        // - Subconsulta: obtenemos la primera imagen de cada servicio
+        // - COALESCE: si no hay rating, ponemos 0
+        // - GROUP BY: agrupamos para calcular promedios y conteos
+        // - ORDER BY: ordenamos por popularidad (más órdenes primero)
+
+        // Ejecutamos la consulta en la base de datos
         const [featuredServices] = await pool.execute(query);
 
-        // Formatear rating
+        // Procesamiento post-consulta: formateamos el rating a 1 decimal
         featuredServices.forEach((service) => {
             service.rating = parseFloat(service.rating).toFixed(1);
         });
 
+        // Devolvemos los servicios destacados al controlador
         return featuredServices;
+        
     } catch (error) {
+        // Si hay error, lo mostramos en consola para debugging
         console.error("Error al obtener servicios destacados:", error);
+        
+        // Re-lanzamos el error para que el controlador lo maneje
         throw error;
-    } 
+    }
 };
 
 export default getFeaturedServices;
+
+// ¿Qué hace este servicio?
+// 1. Ejecuta una consulta SQL muy compleja con múltiples JOINS
+// 2. Obtiene servicios con datos del freelancer, categoría, imagen y estadísticas
+// 3. Calcula el rating promedio y cuenta las órdenes totales
+// 4. Ordena por popularidad (más pedidos = más destacado)
+// 5. Formatea los datos antes de devolverlos
