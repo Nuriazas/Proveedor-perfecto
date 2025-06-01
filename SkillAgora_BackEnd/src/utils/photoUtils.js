@@ -11,7 +11,7 @@ const {UPLOAD_DIR} = process.env;
 export const savePhotoUtils = async (img, width) => {
     // Validar que la imagen sea un buffer
     try {
-        const uploadDir = path.join(process.cwd(), `,src//${UPLOAD_DIR}` );
+        const uploadDir = path.join(process.cwd(), `src/${UPLOAD_DIR}` );
         // Verificar si el directorio de subida existe, si no, lo creamos
         try {
             await fs.access(uploadDir);
@@ -39,7 +39,7 @@ export const savePhotoUtils = async (img, width) => {
 export const deletePhotoUtils = async (imgName) => {
     // Validar que el nombre de la imagen sea una cadena
     try {
-        const imgPath = path.join(process.cwd(), `,src//${UPLOAD_DIR}`, imgName);
+        const imgPath = path.join(process.cwd(), `src/${UPLOAD_DIR}`, imgName);
         // Verificar si el archivo existe antes de intentar eliminarlo
         try {
             await fs.access(imgPath);
@@ -56,4 +56,3 @@ export const deletePhotoUtils = async (imgName) => {
 
 
 }
-
