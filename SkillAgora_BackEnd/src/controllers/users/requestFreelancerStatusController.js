@@ -18,6 +18,10 @@ const requestFreelancerStatusController = async (req, res, next) => {
 			message: "Request for freelancer status submitted successfully",
 			data: requestId,
 		});
+
+		if(!res.status) {
+			throw generateErrorsUtils("Error al enviar la solicitud de estatus freelancer", 500);
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(error.httpStatus || 500).json({

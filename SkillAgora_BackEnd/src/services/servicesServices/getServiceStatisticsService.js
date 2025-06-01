@@ -58,7 +58,7 @@ const getServiceStatisticsService = async () => {
 	} catch (error) {
 		throw generateErrorsUtils(
 			"Error fetching service statistics.",
-			500 + error
+			500, error
 		);
 	}
 };
