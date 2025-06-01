@@ -3,6 +3,7 @@ import express from "express";
 import errorHandler from "./errors/errorHandler.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 
 import routes from "./router/index.js";
@@ -13,6 +14,15 @@ const server = express();
 server.use(express.json());
 // Configurar CORS para permitir solicitudes desde cualquier origen
 server.use(cors());
+// Configurar el servidor para que pueda recibir archivos
+server.use(fileUpload({
+	limits: { fileSize: 3 * 1024 * 1024 }, 
+	abortOnLimit: true,
+	responseOnLimit: 'archvo demadiado grande',
+	safeFileNames: true,
+	preserveExtension: true
+}));
+
 // Middleware para servir archivos estáticos (imágenes en /public)
 server.use('/public', express.static('public'));
 
