@@ -8,7 +8,7 @@ import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 const requestFreelancerStatusController = async (req, res, next) => {
 	try {
 		// Extraemos el userId de los parámetros de la URL usando destructuring
-		const {userId} = req.params;
+		const { userId } = req.params;
 		// Le pasamos el userId extraído de los parámetros
 		const requestId = await requestFreelancerStatusService(userId);
 
@@ -20,7 +20,10 @@ const requestFreelancerStatusController = async (req, res, next) => {
 		});
 	} catch (error) {
 		console.error(error);
-		throw generateErrorsUtils("Error while requesting freelancer status:", 500);
+		res.status(error.httpStatus || 500).json({
+			status: "error",
+			message: error.message,
+		});
 	}
 };
 export default requestFreelancerStatusController;

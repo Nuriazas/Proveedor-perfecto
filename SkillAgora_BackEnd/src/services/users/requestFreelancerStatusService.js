@@ -6,7 +6,6 @@ import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 // Servicio para solicitar el estatus de freelancer
 const requestFreelancerStatusService = async (userId) => {
 	try {
-
 		// Obtenemos la conexión a la base de datos desde el pool de conexiones
 		const pool = await getPool();
 		// Verificar si ya tiene una solicitud pendiente
@@ -25,20 +24,15 @@ const requestFreelancerStatusService = async (userId) => {
 		// El [result] destructura el resultado de la operación INSERT
 		const [result] = await pool.query(
 			`INSERT INTO freelancer_requests (user_id, status) VALUES (?, 'pending')`,
-			[userId]	// El ID del usuario que hace la solicitud
+			[userId] // El ID del usuario que hace la solicitud
 		);
 
 		// Retornamos el ID autogenerado de la solicitud recién creada
 		return result.insertId;
 	} catch (error) {
-		console.error(error);
-		console.log(
-			"Solicitud de estatus de freelancer creada:",
-			result,
-			result.insertId,
-			userId
-		);
-		throw generateErrorsUtils("Error while requesting freelancer status:", 500);
+		if (error.httpStatus) {
+			throw error;
+		}
 	}
 };
 
