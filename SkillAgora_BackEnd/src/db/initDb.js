@@ -1,30 +1,30 @@
-import getPool from './getPool.js';
-import dotenv from 'dotenv';
+import getPool from "./getPool.js";
+import dotenv from "dotenv";
 dotenv.config();
 
 const initDb = async () => {
-    try {
-        let pool = await getPool();
+	try {
+		let pool = await getPool();
 
-        console.log('Eliminando base de datos...');
+		console.log("Eliminando base de datos...");
 
-        await pool.query('DROP DATABASE IF EXISTS SkillAgora');
-        
-        console.log('Creando base de datos SkillAgora...');
+		await pool.query("DROP DATABASE IF EXISTS SkillAgora");
 
-        await pool.query('CREATE DATABASE SkillAgora');
+		console.log("Creando base de datos SkillAgora...");
 
-        await pool.query('USE SkillAgora');
-        
-        console.log('Borrando tablas...');
+		await pool.query("CREATE DATABASE SkillAgora");
 
-        await pool.query(
-            'DROP TABLE IF EXISTS notification_history, user_portfolio, notification, reviews, order_deliveries, orders, service_media, services, categories, users'
-        );
-        
-        console.log('Creando tablas...');
+		await pool.query("USE SkillAgora");
 
-        await pool.query(`
+		console.log("Borrando tablas...");
+
+		await pool.query(
+			"DROP TABLE IF EXISTS notification_history, user_portfolio, notification, reviews, order_deliveries, orders, service_media, services, categories, users"
+		);
+
+		console.log("Creando tablas...");
+
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100),
@@ -46,12 +46,12 @@ const initDb = async () => {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
       `);
-      await pool.query(`
+		await pool.query(`
         CREATE TABLE IF NOT EXISTS categories (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(100) UNIQUE)
             `);
-      await pool.query(`
+		await pool.query(`
         CREATE TABLE IF NOT EXISTS services (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
@@ -66,7 +66,7 @@ const initDb = async () => {
                 FOREIGN KEY (category_id) REFERENCES categories(id)
         )
      `);
-         await pool.query(`
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS orders (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 client_id INT,
@@ -79,7 +79,7 @@ const initDb = async () => {
                 
          )
     `);
-        await pool.query(`
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS order_deliveries (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 order_id INT,
@@ -88,9 +88,9 @@ const initDb = async () => {
                 delivered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
             )
-            `)
-       
-     await pool.query(`
+            `);
+
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS service_media (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 service_id INT,
@@ -99,7 +99,7 @@ const initDb = async () => {
                 FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
             )
     `);
-    await pool.query(`
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS reviews (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 order_id INT,
@@ -109,8 +109,8 @@ const initDb = async () => {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
             
-    `)
-    await pool.query(`
+    `);
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS notification (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
@@ -122,8 +122,8 @@ const initDb = async () => {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE  
             
-            )`)
-     await pool.query(`
+            )`);
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS user_portfolio(
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
@@ -134,8 +134,8 @@ const initDb = async () => {
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             
             )
-            `) 
-    await pool.query(`
+            `);
+		await pool.query(`
             CREATE TABLE IF NOT EXISTS notification_history (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
@@ -143,13 +143,13 @@ const initDb = async () => {
                 type ENUM('order', 'message', 'system', 'review', 'support') DEFAULT 'system',
                 sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            )`)          
-   
-    console.log('Tablas creadas!');
-    process.exit(0);
-    } catch (error) {
-        console.log(error);
-    }
-}
+            )`);
+
+		console.log("Tablas creadas!");
+		process.exit(0);
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 initDb();

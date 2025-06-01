@@ -1,13 +1,16 @@
-import express from 'express';
+import express from "express";
 import getContactRequestNotificationsController from "../controllers/services/getContactRequestNotificationsController.js";
-import getServiceStatisticsController from "../controllers/services/getServiceStatisticsController.js"
-
+import getServiceStatisticsController from "../controllers/services/getServiceStatisticsController.js";
+import updateServiceController from "../controllers/services/updateServiceController.js";
 
 const router = express.Router();
-// Importando el controlador para traer las notificaciones de solicitudes de contacto
-router.get("/notifications", getContactRequestNotificationsController);
+// Endpoint lista solicitudes de contacto
+router.get("/notifications/contacts", getContactRequestNotificationsController);
 
-// Importando el controlador para traer las estadísticas del servicio
-router.get("/statistics", getServiceStatisticsController);
+// Endpoint detalle de un producto/servicio
+router.get("/service/statistics", getServiceStatisticsController);
+
+// Enpoint actualización servicio/producto
+router.put("/service/update", updateServiceController);
 
 export default router;
