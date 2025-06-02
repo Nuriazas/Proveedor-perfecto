@@ -7,9 +7,9 @@ import {
 	getAllFreelancersController,
 	getFreelancerByIdController,
 	requestFreelancerStatusController,
-} from "../controllers/users/index.js";
+} from "../controllers/usersControllers/index.js";
 
-import getContactRequestNotificationsController from "../controllers/notifications/getContactRequestNotificationsController.js";
+
 import authMiddleware from "../middleware/authMiddleware.js";
 
 // Creando un router para manejar las rutas relacionadas con los usuarios

@@ -1,5 +1,5 @@
 import express from 'express';
-import acceptFreelancerRegisterController from '../controllers/admin/acceptFreelancerRequestController.js'
+import acceptFreelancerRegisterController from '../controllers/adminsControllers/acceptFreelancerRequestController.js'
 
 // Creando un router para manejar las rutas relacionadas con admin
 const router = express.Router();

@@ -1,5 +1,5 @@
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
-import selectUserByEmailService from "../../services/users/selectUserByEmailService.js";
+import selectUserByEmailService from "../../services/usersServices/selectUserByEmailService.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

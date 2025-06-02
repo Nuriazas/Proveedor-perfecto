@@ -1,6 +1,6 @@
 import randomstring from "randomstring";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
-import insertUserService from "../../services/users/insertUserService.js";
+import insertUserService from "../../services/usersServices/insertUserService.js";
 
 const registerUserController = async (req, res, next) => {
 	try {
