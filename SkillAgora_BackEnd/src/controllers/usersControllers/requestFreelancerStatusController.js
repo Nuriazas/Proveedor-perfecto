@@ -1,6 +1,6 @@
 // Controller Endpoint para solicitar status freelancer
 
-import requestFreelancerStatusService from "../../services/users/requestFreelancerStatusService.js";
+import requestFreelancerStatusService from "../../services/usersServices/requestFreelancerStatusService.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
 // Controlador para manejar la solicitud de estatus de freelancer

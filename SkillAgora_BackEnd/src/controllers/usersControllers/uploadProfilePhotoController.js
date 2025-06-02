@@ -1,4 +1,4 @@
-import { uploadProfilePhotoService } from "../../services/users/uploadProfilePhotoService.js";
+import { uploadProfilePhotoService } from "../../services/usersServices/uploadProfilePhotoService.js";
 
 const uploadProfilePhotoController = async (req, res) => {
 	try {

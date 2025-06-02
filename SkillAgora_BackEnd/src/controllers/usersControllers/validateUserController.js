@@ -1,4 +1,4 @@
-import updateUserRegCodeService from '../../services/users/updateUserRegCodeService.js';
+import updateUserRegCodeService from '../../services/usersServices/updateUserRegCodeService.js';
 
 
 

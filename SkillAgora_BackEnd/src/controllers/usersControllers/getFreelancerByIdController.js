@@ -1,5 +1,5 @@
 // Importamos el servicio que obtiene un freelancer específico por su ID
-import getFreelancerById from "../../services/users/getFreelancerById.js";
+import getFreelancerById from "../../services/usersServices/getFreelancerById.js";
 
 // Controlador para manejar la petición de obtener un freelancer por ID
 async function getFreelancerByIdController(req, res) {

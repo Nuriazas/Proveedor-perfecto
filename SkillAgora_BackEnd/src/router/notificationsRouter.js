@@ -1,4 +1,4 @@
-import { getContactRequestNotificationsController } from "../controllers/notifications/index.js";
+import { getContactRequestNotificationsController } from "../controllers/notificationsControllers/index.js";
 import express from "express";
 
 const router = express.Router();

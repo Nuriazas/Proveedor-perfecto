@@ -1,7 +1,7 @@
 // Controller Endpoint para aceptar el registro de un proveedor (administrador)
 
 // Importamos el servicio que acepta el registro del freelancer
-import acceptFreelancerRegisterService from "../../services/admin/acceptFreelancerRequestService.js";
+import acceptFreelancerRegisterService from "../../services/adminsServices/acceptFreelancerRequestService.js";
 
 // Importamos utilidad para generar errores personalizados
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";

@@ -1,5 +1,5 @@
 // Importamos el servicio que obtiene todos los freelancers de la base de datos
-import getAllFreelancers from "../../services/users/getAllFreelancers.js";
+import getAllFreelancers from "../../services/usersServices/getAllFreelancers.js";
 
 // Controlador para manejar la petición de obtener todos los freelancers
 async function getAllFreelancersController(req, res) {
