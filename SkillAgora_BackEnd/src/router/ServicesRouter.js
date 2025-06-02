@@ -6,7 +6,8 @@ import {
 	getServiceStatisticsController,
 	updateServiceController,
 	getServiceDetailsByIdController,
-	getAllServicesController
+	getAllServicesController,
+	getAllServicesByFiltersController,
 } from "../controllers/servicesControllers/index.js";
 
 // Creando un router para manejar las rutas relacionadas con los servicios
@@ -32,6 +33,9 @@ servicesRouter.get("/service/statistics", getServiceStatisticsController);
 servicesRouter.put("/service/update/:id", updateServiceController);
 
 servicesRouter.get("/service/:id", getServiceDetailsByIdController);
+
+// Endpoint filtros y ordenaciones de servicios
+servicesRouter.get("/services/filters", getAllServicesByFiltersController);
 
 
 
