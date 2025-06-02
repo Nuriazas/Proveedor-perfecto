@@ -16,6 +16,8 @@ const validateUserController = async (req, res, next) => {
         if (!registrationCode) {
             throw new Error('Código de registro no proporcionado');
         }
+
+        // Llamar al servicio para actualizar el código de registro del usuario
         await updateUserRegCodeService(registrationCode);
         res.send({
             status: 'ok',

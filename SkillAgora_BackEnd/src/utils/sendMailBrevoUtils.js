@@ -5,11 +5,12 @@ import generateErrorsUtils from './generateErrorsUtils.js';
 // Configuración de Brevo 
 const {SMTP_API_KEY, SMTP_USER}= process.env;
 
+
 // Verifica que las variables de entorno estén definidas
-const apiIntance = new brevo.TransactionalEmailsApi();
+const apiInstance = new brevo.TransactionalEmailsApi();
 
 // Configura la clave API de Brevo
-apiIntance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, SMTP_API_KEY);
+apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, SMTP_API_KEY);
 
 
 // Función para enviar correos electrónicos utilizando Brevo
@@ -25,10 +26,21 @@ const sendMailBrevoUtils = async (email, subject, body) => {
 
         sendSmtpMail.sender = { email: SMTP_USER, name: 'SkillAgora' };
 
-        await apiIntance.sendTransacEmail(sendSmtpMail);
+        await apiInstance.sendTransacEmail(sendSmtpMail);
     } catch (error) {
-        console.log(error);
+
+
+        console.error('Error al enviar el correo electrónico a Brevo:');
+        if(error.response && error.response.body) {
+            console.error(`Respuets del servidor:`, JSON.stringify(error.response.body, null, 2));
+        } else {
+            console.log(`Mensaje genérico:`, error. message || error);
+
+        }
+
         throw generateErrorsUtils('Error al enviar el correo electrónico', 500);
+        // console.log(error);
+        // throw generateErrorsUtils('Error al enviar el correo electrónico', 500);
     }
 }
 

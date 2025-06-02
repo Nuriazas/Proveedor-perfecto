@@ -20,7 +20,7 @@ const updateUserRegCodeService = async (registrationCode) => {
 	// Actualizar el estado del usuario a activo
 	await pool.query(
 		`
-        UPDATE users SET isActive = true, registrationCode = NULL WHERE registrationCode = ?
+        UPDATE users SET active = true, registrationCode = NULL WHERE registrationCode = ?
         `,
 		[registrationCode]
 	);
