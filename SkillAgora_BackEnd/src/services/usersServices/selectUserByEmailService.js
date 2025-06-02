@@ -3,7 +3,7 @@ import getPool from "../../db/getPool.js";
 const selectUserByEmailService = async (email) => {
 	const pool = await getPool();
 	const [user] = await pool.query(
-		`SELECT  id, password, recoverPassCode, active
+		`SELECT  id, email, password, recoverPassCode, active
         FROM users
         WHERE email = ? `,
 		[email]

@@ -3,6 +3,7 @@ import userRouter from "./userRouter.js";
 import servicesRouter from "./servicesRouter.js";
 import adminRouter from "./adminRouter.js";
 import notificationsRouter from "./notificationsRouter.js";
+import reviewsRouter from "./reviewsRouter.js";
 
 // Creando un router principal que combine todos los routers de la aplicación
 
@@ -11,8 +12,8 @@ const router = express.Router();
 
 router.use(userRouter);
 router.use(servicesRouter);
-router.use(servicesRouter);
 router.use(adminRouter);
 router.use(notificationsRouter);
+router.use(reviewsRouter);
 
 export default router;
