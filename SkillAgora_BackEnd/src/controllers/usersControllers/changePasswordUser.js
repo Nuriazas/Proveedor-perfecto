@@ -1,38 +1,35 @@
-import bcrypt from "bcrypt";
 import changePasswordsService from "../../services/usersServices/changePasswordsService.js";
+import  errorHandler  from "../../errors/errorHandler.js";
 
-const changePasswordUser = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const { currentPassword, newPassword } = req.body;
+const changePasswordController = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const userId = req.user.id;
 
-    if (!currentPassword || !newPassword) {
-      return res.status(400).json({ message: "Faltan datos" });
+        // Validar que los campos requeridos estén presentes
+        if (!currentPassword || !newPassword) {
+            const error = new Error("Se requieren la contraseña actual y la nueva contraseña");
+            error.statusCode = 400;
+            throw error;
+        }
+
+        await changePasswordsService(userId, currentPassword, newPassword);
+
+        res.status(200).json({
+            success: true,
+            message: "Contraseña actualizada exitosamente",
+            data: null
+        });
+    } catch (error) {
+        errorHandler(error, res);
     }
-
-    // Llamar al servicio para obtener al usuario
-    const user = await changePasswordsService.getUserById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-
-    const match = await bcrypt.compare(currentPassword, user.password);
-    if (!match) {
-      return res.status(401).json({ message: "Contraseña actual incorrecta" });
-    }
-
-    // Hashear nueva contraseña
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    // Llamar al servicio para actualizar la contraseña
-    await changePasswordsService.updatePassword(userId, hashedPassword);
-
-    res.json({ message: "Contraseña actualizada" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error del servidor" });
-  }
 };
 
-export default changePasswordUser;
+// Controlador que maneja la petición de cambio de contraseña:
+// 1. Recibe la petición HTTP con las contraseñas
+// 2. Valida que los campos requeridos estén presentes
+// 3. Obtiene el ID del usuario del token JWT
+// 4. Llama al servicio para procesar el cambio
+// 5. Devuelve respuesta de éxito o error
+
+export default changePasswordController;

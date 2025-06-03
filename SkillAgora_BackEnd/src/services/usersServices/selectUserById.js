@@ -1,17 +1,67 @@
 import getPool from "../../db/getPool.js";
+import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
-const selectUserById = async (userId) => {
-  const pool = await getPool();
 
-  const [rows] = await pool.query(
-    `SELECT id, name, firstName, lastName, email, avatar, active, role,
-     bio, experience, portfolio_url, location, language, created_at
-     FROM users
-     WHERE id = ?`,
-    [userId]
-  );
+const selectUserById = async (nameQuery) => {
+    const pool = await getPool();
+    console.log(pool);
 
-  return rows[0];
-};
+    const [userRow] = await pool.query(
 
-export default selectUserById;
+    
+        
+        
+            `
+                SELECT 
+                   u.id, 
+                   u.email,
+                   u.name,
+                   u.firstName,
+                   u.lastName,
+                   u.avatar,
+                   u.role,
+                   u.bio,
+                   IFNULL (AVG(r.rating), 0) AS average_rating
+                FROM users u
+                LEFT JOIN orders o ON o.client_id = u.id
+                LEFT JOIN reviews r ON r.order_id = o.id
+                WHERE u.name LIKE ?  
+                GROUP BY u.id
+
+            `, [`%${nameQuery}%`]
+        );
+        if (userRow.length === 0) {
+            throw generateErrorsUtils("Usuario no encontrado", 404);
+        }
+        const user = userRow[0];    
+        const [servicesRow] = await pool.query(
+            `
+                SELECT 
+                s.title, 
+                s.description, 
+                s.price, 
+                c.name AS category_name, 
+                s.created_at
+                FROM services s
+                JOIN categories c ON s.category_id = c.id
+                WHERE s.user_id = ?
+                
+            
+            `,[user.id]
+
+        );
+
+        delete user.id; // Eliminar el ID del usuario para evitar conflictos con el ID de los servicios
+        return {
+            ...user,
+            services: servicesRow,
+        };
+    }
+
+
+       
+       
+    
+    
+
+    export default selectUserById;
