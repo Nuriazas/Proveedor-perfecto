@@ -1,26 +1,31 @@
 import randomstring from "randomstring";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 import insertUserService from "../../services/usersServices/insertUserService.js";
+import {savePhotoUtils} from "../../utils/photoUtils.js";
 
 const registerUserController = async (req, res, next) => {
 	
 
 		try {
-			const { email, password } = req.body;
+			const { email, password , name, firstName, lastName} = req.body;
 			console.log(
-			`depuración recibo de email por req.body en el endpoint register: ${email}`
+			`Depuración recibo de email por req.body en el endpoint register: ${email}`
 		);
 			// Validar que se proporcionen email y password
-			if (!email || !password)
-				throw generateErrorsUtils("Se requiere email o contaseña", 400);
-
+			if (!email || !password || !name || !firstName || !lastName)
+				throw generateErrorsUtils("Faltan campos obligatorios", 400);
+			let avatar = null;
+			if(req.files && req.files.avatar) {
+				const avatarFile = req.files.avatar;
+				avatar = await savePhotoUtils(avatarFile.data, "avatars")
+			}
 			// Generar un código de registro aleatorio
 			const registrationCode = randomstring.generate({
 				length: 15,
 				charset: "alphanumeric",
 			});
 
-			await insertUserService(email, password, registrationCode);
+			await insertUserService(email, password, registrationCode,name , firstName, lastName);
 
 			res.send({
 				status: "ok",

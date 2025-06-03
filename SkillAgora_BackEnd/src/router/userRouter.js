@@ -39,5 +39,5 @@ router.post(
 	authMiddleware,
 	requestFreelancerStatusController
 );
-
+ router.get('users/profile', authMiddleware,getUserProfileController)
 export default router;

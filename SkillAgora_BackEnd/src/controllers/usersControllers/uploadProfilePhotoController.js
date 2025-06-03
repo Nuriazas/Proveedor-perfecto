@@ -1,5 +1,6 @@
 import { uploadProfilePhotoService } from "../../services/usersServices/uploadProfilePhotoService.js";
 
+
 const uploadProfilePhotoController = async (req, res) => {
 	try {
 		if (!req.files || !req.files.img) {

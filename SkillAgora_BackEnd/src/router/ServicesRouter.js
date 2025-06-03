@@ -6,8 +6,10 @@ import {
 	getServiceStatisticsController,
 	updateServiceController,
 	getServiceDetailsByIdController,
-	getAllServicesController
+	getAllServicesController,
+	createServiceController
 } from "../controllers/servicesControllers/index.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 // Creando un router para manejar las rutas relacionadas con los servicios
 const servicesRouter = express.Router();
@@ -32,6 +34,8 @@ servicesRouter.get("/service/statistics", getServiceStatisticsController);
 servicesRouter.put("/service/update/:id", updateServiceController);
 
 servicesRouter.get("/service/:id", getServiceDetailsByIdController);
+
+servicesRouter.post("/create-service", authMiddleware,createServiceController); 
 
 
 
