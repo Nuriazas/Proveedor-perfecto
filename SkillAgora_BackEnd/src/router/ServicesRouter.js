@@ -7,7 +7,8 @@ import {
 	updateServiceController,
 	getServiceDetailsByIdController,
 	getAllServicesController,
-	createServiceController
+	createServiceController,
+	getAllServicesByFiltersController
 } from "../controllers/servicesControllers/index.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -36,6 +37,8 @@ servicesRouter.put("/service/update/:id", updateServiceController);
 servicesRouter.get("/service/:id", getServiceDetailsByIdController);
 
 servicesRouter.post("/create-service", authMiddleware,createServiceController); 
+// Endpoint filtros y ordenaciones de servicios
+servicesRouter.get("/services/filters", getAllServicesByFiltersController);
 
 
 

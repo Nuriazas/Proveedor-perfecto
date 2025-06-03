@@ -6,8 +6,14 @@ import updateServiceController from './updateServiceController.js';
 import getServiceDetailsByIdController from "./getServiceDetailsByIdController.js";
 import getAllServicesController from "./getAllServicesController.js";
 import createServiceController from "./createServiceController.js";
+import getAllServicesByFiltersController from "./getAllServicesByFiltersController.js";
 
 export { getServiceStatisticsController, updateServiceController,getCategoriesController, uploadServicePhotoController, getFeaturedServicesController, getServiceDetailsByIdController,
 getAllServicesController,
-createServiceController
+createServiceController,
+getAllServicesByFiltersController
  };
+
+
+
+

@@ -115,7 +115,7 @@ const initDb = async () => {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
                 content TEXT,
-                type ENUM('order', 'message', 'system', 'review', 'support') DEFAULT 'system',
+                type ENUM('order', 'message', 'system', 'review', 'support', 'contact_request') DEFAULT 'system',
                 is_read BOOLEAN DEFAULT FALSE,
                 email_sent BOOLEAN DEFAULT FALSE,
                 email_sent_at TIMESTAMP NULL,
@@ -152,7 +152,7 @@ const initDb = async () => {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
                 content TEXT,
-                type ENUM('order', 'message', 'system', 'review', 'support') DEFAULT 'system',
+                type ENUM('order', 'message', 'system', 'review', 'support', 'contact_request') DEFAULT 'system',
                 sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )`);
