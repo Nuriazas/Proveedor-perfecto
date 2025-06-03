@@ -3,7 +3,7 @@ import express from "express";
 import errorHandler from "./errors/errorHandler.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import cors from 'cors';
-import usersRoutes from "./router/userRouter.js";
+
 
 import routes from "./router/index.js";
 // Importar dependencias
@@ -33,7 +33,6 @@ server.get("/protected", authMiddleware, (req, res) => {
 	
 });
 
-server.use("/api/users", usersRoutes);
 
 // Importar las rutas del router principal
 server.use(routes)

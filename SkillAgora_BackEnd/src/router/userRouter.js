@@ -25,7 +25,8 @@ router.post('/users/login', loginUserController);
 //Ruta para la información del usuario
 router.get("/profile", authMiddleware, getProfile);
 
-//Ruta para el cvambio de contraseña
+//Ruta para el cambio de contraseña
 router.post('/change-password', authMiddleware, changePasswordUser);
+
 
 export default router;
