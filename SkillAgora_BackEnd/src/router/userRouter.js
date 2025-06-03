@@ -7,10 +7,10 @@ import {
 	getAllFreelancersController,
 	getFreelancerByIdController,
 	requestFreelancerStatusController,
+	changePasswordUser,
+	getProfile
 } from "../controllers/usersControllers/index.js";
-import changePasswordUser from "../controllers/usersControllers/changePasswordUser.js";
 
-import getProfile from "../controllers/usersControllers/getProfile.js";
 
 
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -48,5 +48,5 @@ router.post(
 	authMiddleware,
 	requestFreelancerStatusController
 );
- router.get('users/profile', authMiddleware,getUserProfileController)
+
 export default router;

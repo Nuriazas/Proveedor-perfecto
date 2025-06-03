@@ -1,4 +1,5 @@
 import getPool from "./getPool.js";
+import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -111,19 +112,50 @@ const initDb = async () => {
             
     `);
 		await pool.query(`
-            CREATE TABLE IF NOT EXISTS notification (
+                    CREATE TABLE IF NOT EXISTS notification (
                 id INT AUTO_INCREMENT PRIMARY KEY,
+
+                -- Usuario al que se dirige la notificación
                 user_id INT,
+
+                -- Texto de la notificación
                 content TEXT,
-                type ENUM('order', 'message', 'system', 'review', 'support', 'contact_request') DEFAULT 'system',
+
+                -- Tipo de notificación (para distinguir la lógica: mensajes, pedidos, solicitudes de contacto, etc.)
+                type ENUM(
+                    'order', 
+                    'message', 
+                    'system', 
+                    'review', 
+                    'contact_request', 
+                    'support'
+                ) DEFAULT 'system',
+
+                -- Estado específico dentro del tipo: por ejemplo, si es una solicitud de contacto puede estar aceptada, pendiente, etc.
+                status ENUM(
+                    'contact_request_accepted', 
+                    'contact_request_rejected', 
+                    'contact_request_pending', 
+                    'order_placed', 
+                    'order_delivered', 
+                    'order_completed', 
+                    'review_received', 
+                    'message_received', 
+                    'system_update'
+                ) DEFAULT 'contact_request_pending',
+
+                -- Si el usuario ya la leyó
                 is_read BOOLEAN DEFAULT FALSE,
+
+                -- Si se ha enviado un correo por esta notificación
                 email_sent BOOLEAN DEFAULT FALSE,
                 email_sent_at TIMESTAMP NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE  
-            
-            )`);
 
+                -- Fecha de creación de la notificación
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )`);
 		await pool.query(`
                 CREATE TABLE freelancer_requests (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -153,12 +185,34 @@ const initDb = async () => {
                 user_id INT,
                 content TEXT,
                 type ENUM('order', 'message', 'system', 'review', 'support', 'contact_request') DEFAULT 'system',
+                status ENUM(
+                    'contact_request_accepted', 
+                    'contact_request_rejected', 
+                    'contact_request_pending', 
+                    'order_placed', 
+                    'order_delivered', 
+                    'order_completed', 
+                    'review_received', 
+                    'message_received', 
+                    'system_update'
+                ) DEFAULT 'contact_request_pending',
                 sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )`);
 
+		const createAdminUser = async () => {
+			const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
+			await pool.query(
+				`
+                    INSERT INTO users (name, firstName, lastName, email, password, is_admin, active)
+                    VALUES ('Admin', 'Admin', 'Admin', ?, ?, true, true)
+                `,
+				[process.env.ADMIN_EMAIL, hashedPassword]
+			);
+		};
+
 		console.log("Tablas creadas!");
-		process.exit(0);
+		return createAdminUser();
 	} catch (error) {
 		console.log(error);
 	}

@@ -2,7 +2,6 @@ import express from "express";
 import userRouter from "./userRouter.js";
 import servicesRouter from "./ServicesRouter.js";
 import adminRouter from "./adminRouter.js";
-import notificationsRouter from "./notificationsRouter.js";
 import reviewsRouter from "./reviewsRouter.js";
 import contactRouter from "./contactRouter.js";
 
@@ -14,7 +13,7 @@ const router = express.Router();
 router.use(userRouter);
 router.use(servicesRouter);
 router.use(adminRouter);
-router.use(notificationsRouter);
+
 router.use(reviewsRouter);
 router.use(contactRouter);
 

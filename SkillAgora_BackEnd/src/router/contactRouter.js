@@ -1,13 +1,24 @@
 import express from "express";
-import { sendContactRequestController } from "../controllers/contactControllers/index.js";
+import {
+  getContactRequestNotificationsController,
+  sendContactRequestController,
+  acceptContactRequestController,
+} from "../controllers/contactsControllers/index.js";
+
 import authMiddleware from "../middleware/authMiddleware.js";
-import contactProvider from "../controllers/servicesControllers/contactProvider.js";
 
 const router = express.Router();
 
+// Endpoint lista solicitudes de contacto
+router.get("/notifications/contacts", getContactRequestNotificationsController);
+
 // Endpoint para enviar solicitud de contacto a proveedor
 router.post("/contact/request", authMiddleware, sendContactRequestController);
+// Endpoint para aceptar una solicitud de contacto
+router.post(
+  "/contact-request/:notificationId/accept",
+  authMiddleware,
+  acceptContactRequestController
+);
 
-router.post("/contact/provider", contactProvider);
-
-export default router; 
+export default router;

@@ -5,6 +5,8 @@ import uploadProfilePhotoController from "./uploadProfilePhotoController.js";
 import getAllFreelancersController from "./getAllFreelancersController.js";
 import getFreelancerByIdController from "./getFreelancerByIdController.js";
 import requestFreelancerStatusController from "./requestFreelancerStatusController.js";
+import getProfile from "./getProfile.js";
+import changePasswordUser from "./changePasswordUser.js";
 
 export {
 	registerUserController,
@@ -14,4 +16,6 @@ export {
 	getFreelancerByIdController,
 	uploadProfilePhotoController,
 	requestFreelancerStatusController,
+	getProfile,
+	changePasswordUser
 };
