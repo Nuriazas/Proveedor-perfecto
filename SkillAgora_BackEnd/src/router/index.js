@@ -4,6 +4,7 @@ import servicesRouter from "./servicesRouter.js";
 import adminRouter from "./adminRouter.js";
 import notificationsRouter from "./notificationsRouter.js";
 import reviewsRouter from "./reviewsRouter.js";
+import contactRouter from "./contactRouter.js";
 
 // Creando un router principal que combine todos los routers de la aplicación
 
@@ -15,5 +16,6 @@ router.use(servicesRouter);
 router.use(adminRouter);
 router.use(notificationsRouter);
 router.use(reviewsRouter);
+router.use(contactRouter);
 
 export default router;
