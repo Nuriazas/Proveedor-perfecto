@@ -26,7 +26,7 @@ servicesRouter.get("/services/categories", getCategoriesController);
 // GET /api/services/featured?limit=6
 servicesRouter.get("/services/featured", getFeaturedServicesController);
 
-const router = express.Router();
+
 
 // Endpoint detalle de un producto/servicio
 servicesRouter.get("/service/statistics", getServiceStatisticsController);
