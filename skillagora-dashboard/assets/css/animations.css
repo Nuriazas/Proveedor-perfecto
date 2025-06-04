@@ -1,0 +1,126 @@
+/* ===== ANIMACIONES Y EFECTOS ===== */
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes slideIn {
+	from {
+		transform: translateY(-30px) scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0) scale(1);
+		opacity: 1;
+	}
+}
+
+/* ===== ESTILOS DE MODALES ===== */
+
+.modal-header h2,
+.modal-header h3 {
+	margin: 0 0 15px 0;
+	color: var(--primary-color);
+}
+
+.modal-actions .btn-primary,
+.modal-actions .btn-secondary {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: 600;
+	transition: all 0.2s ease;
+}
+
+.modal-actions .btn-primary {
+	background: var(--primary-color);
+	color: white;
+}
+
+.modal-actions .btn-primary:hover {
+	opacity: 0.9;
+	transform: translateY(-1px);
+}
+
+.modal-actions .btn-secondary {
+	background: var(--border-color);
+	color: var(--text-color);
+}
+
+.modal-actions .btn-secondary:hover {
+	background: var(--secondary-color);
+}
+
+.modal-actions .btn-danger {
+	background: #e74c3c;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* ===== TARJETAS DE ESTADÍSTICAS ===== */
+
+.stat-card {
+	background: var(--light-color);
+	padding: 15px;
+	border-radius: 8px;
+	text-align: center;
+	border: 1px solid var(--border-color);
+}
+
+.stat-value {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: var(--primary-color);
+}
+
+.stat-label {
+	color: var(--secondary-color);
+	font-size: 0.9em;
+	margin-top: 5px;
+}
+
+/* ===== ELEMENTOS DE AYUDA ===== */
+
+.help-section {
+	margin-bottom: 25px;
+}
+
+.help-section h3 {
+	color: var(--primary-color);
+	margin-bottom: 10px;
+}
+
+.help-section ul {
+	padding-left: 20px;
+}
+
+.help-section li {
+	margin-bottom: 8px;
+	line-height: 1.5;
+}
+
+kbd {
+	background: var(--light-color);
+	border: 1px solid var(--border-color);
+	border-radius: 3px;
+	padding: 2px 6px;
+	font-family: monospace;
+	font-size: 0.9em;
+}
