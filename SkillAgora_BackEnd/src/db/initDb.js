@@ -28,7 +28,6 @@ const initDb = async () => {
 		await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(100),
                 firstName VARCHAR(50) DEFAULT NULL,
                 lastName VARCHAR(50) DEFAULT NULL,
                 email VARCHAR(100) UNIQUE,
@@ -204,8 +203,8 @@ const initDb = async () => {
 			const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
 			await pool.query(
 				`
-                    INSERT INTO users (name, firstName, lastName, email, password, is_admin, active)
-                    VALUES ('Admin', 'Admin', 'Admin', ?, ?, true, true)
+                    INSERT INTO users (firstName, lastName, email, password, is_admin, active)
+                    VALUES ('Admin', 'Admin', ?, ?, true, true)
                 `,
 				[process.env.ADMIN_EMAIL, hashedPassword]
 			);
