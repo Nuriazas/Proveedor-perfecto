@@ -1,0 +1,287 @@
+/* CSS para tareas personalizadas */
+.delete-task-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 50%;
+	transition: all 0.2s ease;
+	opacity: 0.6;
+	margin-left: 10px;
+	font-size: 14px;
+}
+
+.delete-task-btn:hover {
+	background: rgba(231, 76, 60, 0.1);
+	opacity: 1;
+	transform: scale(1.1);
+}
+
+.task-header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.task-title {
+	flex: 1;
+	font-weight: 600;
+}
+
+.task-time {
+	font-size: 0.9em;
+	color: var(--secondary-color);
+	white-space: nowrap;
+}
+
+/* CSS para página de presentación */
+.presentation-container {
+	background: var(--card-bg);
+	border-radius: 12px;
+	border: 1px solid var(--border-color);
+	overflow: hidden;
+}
+
+.presentation-header {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	padding: 25px 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.presentation-header h2 {
+	margin: 0;
+	font-size: 1.8em;
+}
+
+.presentation-controls {
+	display: flex;
+	gap: 10px;
+}
+
+.presentation-content {
+	padding: 30px;
+}
+
+.content-section-block {
+	margin-bottom: 35px;
+	padding-bottom: 25px;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.content-section-block:last-child {
+	border-bottom: none;
+}
+
+.content-section-block h3 {
+	color: var(--primary-color);
+	margin-bottom: 20px;
+	font-size: 1.4em;
+}
+
+/* Endpoints */
+.endpoints-section {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.endpoint-item {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	padding: 12px 15px;
+	background: var(--light-color);
+	border-radius: 8px;
+	border-left: 4px solid var(--primary-color);
+}
+
+.endpoint-method {
+	padding: 4px 12px;
+	border-radius: 20px;
+	font-weight: bold;
+	font-size: 0.85em;
+	text-transform: uppercase;
+	min-width: 60px;
+	text-align: center;
+}
+
+.endpoint-method.get {
+	background: #28a745;
+	color: white;
+}
+
+.endpoint-method.post {
+	background: #007bff;
+	color: white;
+}
+
+.endpoint-method.put {
+	background: #ffc107;
+	color: #212529;
+}
+
+.endpoint-method.delete {
+	background: #dc3545;
+	color: white;
+}
+
+.endpoint-path {
+	font-family: "Courier New", monospace;
+	background: var(--border-color);
+	padding: 6px 12px;
+	border-radius: 4px;
+	font-weight: 600;
+	min-width: 200px;
+}
+
+.endpoint-description {
+	color: var(--secondary-color);
+	flex: 1;
+}
+
+/* Features Grid */
+.features-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 20px;
+}
+
+.feature-card {
+	background: var(--light-color);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	padding: 20px;
+	text-align: center;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+	font-size: 2.5em;
+	margin-bottom: 15px;
+}
+
+.feature-title {
+	font-weight: 600;
+	color: var(--primary-color);
+	margin-bottom: 10px;
+	font-size: 1.1em;
+}
+
+.feature-description {
+	color: var(--secondary-color);
+	line-height: 1.5;
+}
+
+/* Tech Stack */
+.tech-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.tech-item {
+	display: flex;
+	align-items: center;
+	padding: 15px;
+	background: var(--light-color);
+	border-radius: 8px;
+	border-left: 4px solid var(--primary-color);
+}
+
+.tech-name {
+	font-weight: 600;
+	color: var(--primary-color);
+	min-width: 120px;
+	margin-right: 15px;
+}
+
+.tech-description {
+	color: var(--text-color);
+	flex: 1;
+}
+
+/* Editor */
+.presentation-editor {
+	background: var(--light-color);
+	padding: 20px;
+	border-radius: 8px;
+	margin-top: 20px;
+}
+
+.editor-section {
+	margin-bottom: 25px;
+}
+
+.editor-section label {
+	display: block;
+	font-weight: 600;
+	color: var(--primary-color);
+	margin-bottom: 8px;
+}
+
+.editor-section textarea {
+	width: 100%;
+	min-height: 120px;
+	padding: 12px;
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	font-family: inherit;
+	font-size: 14px;
+	line-height: 1.5;
+	resize: vertical;
+	box-sizing: border-box;
+}
+
+.editor-section textarea:focus {
+	outline: none;
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.presentation-header {
+		flex-direction: column;
+		gap: 15px;
+		text-align: center;
+	}
+
+	.presentation-controls {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.endpoint-item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.endpoint-path {
+		min-width: auto;
+		width: 100%;
+	}
+
+	.features-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.tech-item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.tech-name {
+		min-width: auto;
+		margin-right: 0;
+	}
+}

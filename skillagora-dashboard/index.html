@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>SkillAgora - Dashboard Interactivo</title>
+
+		<!-- CSS Files -->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/layout.css" />
+		<link rel="stylesheet" href="assets/css/components.css" />
+		<link rel="stylesheet" href="assets/css/themes.css" />
+		<link rel="stylesheet" href="assets/css/presentation.css" />
+		<link rel="stylesheet" href="assets/css/animations.css" />
+	</head>
+	<body>
+		<!-- Main Application -->
+		<div class="app-container" id="appContainer">
+			<!-- Sidebar -->
+			<nav class="sidebar" id="sidebar">
+				<div class="sidebar-header">
+					<div class="logo">SkillAgora</div>
+					<button class="sidebar-toggle" onclick="toggleSidebar()">
+						<span id="toggleIcon">←</span>
+					</button>
+				</div>
+				<ul class="nav-menu">
+					<li class="nav-item">
+						<a
+							href="#overview"
+							class="nav-link active"
+							onclick="showSection('overview'); return false;"
+						>
+							<span class="nav-icon">📊</span>
+							<span class="nav-text">Resumen</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#proposal"
+							class="nav-link"
+							onclick="showSection('proposal'); return false;"
+						>
+							<span class="nav-icon">📋</span>
+							<span class="nav-text">Propuesta</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#presentation"
+							class="nav-link"
+							onclick="showSection('presentation'); return false;"
+						>
+							<span class="nav-icon">📖</span>
+							<span class="nav-text">Presentación</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#critical"
+							class="nav-link"
+							onclick="showSection('critical'); return false;"
+						>
+							<span class="nav-icon">🔴</span>
+							<span class="nav-text">Tareas Críticas</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#important"
+							class="nav-link"
+							onclick="showSection('important'); return false;"
+						>
+							<span class="nav-icon">🟡</span>
+							<span class="nav-text">Importantes</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#optional"
+							class="nav-link"
+							onclick="showSection('optional'); return false;"
+						>
+							<span class="nav-icon">🟢</span>
+							<span class="nav-text">Opcionales</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#technical"
+							class="nav-link"
+							onclick="showSection('technical'); return false;"
+						>
+							<span class="nav-icon">🔧</span>
+							<span class="nav-text">Técnicas</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#fixes"
+							class="nav-link"
+							onclick="showSection('fixes'); return false;"
+						>
+							<span class="nav-icon">🔨</span>
+							<span class="nav-text">Correcciones</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							href="#timeline"
+							class="nav-link"
+							onclick="showSection('timeline'); return false;"
+						>
+							<span class="nav-icon">⏱️</span>
+							<span class="nav-text">Timeline</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+
+			<!-- Main Content -->
+			<main class="main-content" id="mainContent">
+				<!-- Header -->
+				<header class="content-header">
+					<div style="display: flex; align-items: center; gap: 15px">
+						<button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">
+							☰
+						</button>
+						<h1 class="page-title" id="pageTitle">Dashboard SkillAgora</h1>
+					</div>
+
+					<div class="header-controls" id="headerControls">
+						<input
+							type="text"
+							class="search-box"
+							placeholder="Buscar tareas..."
+							id="searchBox"
+							oninput="searchTasks()"
+						/>
+						<button class="theme-toggle" onclick="showStatsModal()">📊</button>
+						<button class="theme-toggle" onclick="showHelpModal()">❓</button>
+						<button
+							class="theme-toggle"
+							onclick="showAddTaskModal()"
+							title="Añadir nueva tarea"
+						>
+							➕
+						</button>
+						<button
+							class="theme-toggle"
+							onclick="toggleTheme()"
+							id="themeToggle"
+						>
+							🌙
+						</button>
+					</div>
+				</header>
+
+				<!-- Content Body -->
+				<div class="content-body" id="contentBody">
+					<!-- Overview Section -->
+					<section id="overview" class="content-section">
+						<!-- Dashboard Grid -->
+						<div class="dashboard-grid">
+							<div
+								class="dashboard-card"
+								data-category="critical"
+								onclick="showSection('critical')"
+							>
+								<div class="card-icon">🔴</div>
+								<div class="card-title">Tareas Críticas</div>
+								<div class="card-value" id="criticalCount">0/0</div>
+								<div class="progress-bar">
+									<div
+										class="progress-fill"
+										id="criticalProgress"
+										style="width: 0%"
+									></div>
+								</div>
+							</div>
+
+							<div
+								class="dashboard-card"
+								data-category="important"
+								onclick="showSection('important')"
+							>
+								<div class="card-icon">🟡</div>
+								<div class="card-title">Tareas Importantes</div>
+								<div class="card-value" id="importantCount">0/0</div>
+								<div class="progress-bar">
+									<div
+										class="progress-fill"
+										id="importantProgress"
+										style="width: 0%"
+									></div>
+								</div>
+							</div>
+
+							<div
+								class="dashboard-card"
+								data-category="optional"
+								onclick="showSection('optional')"
+							>
+								<div class="card-icon">🟢</div>
+								<div class="card-title">Tareas Opcionales</div>
+								<div class="card-value" id="optionalCount">0/0</div>
+								<div class="progress-bar">
+									<div
+										class="progress-fill"
+										id="optionalProgress"
+										style="width: 0%"
+									></div>
+								</div>
+							</div>
+
+							<div
+								class="dashboard-card"
+								data-category="technical"
+								onclick="showSection('technical')"
+							>
+								<div class="card-icon">🔧</div>
+								<div class="card-title">Tareas Técnicas</div>
+								<div class="card-value" id="technicalCount">0/0</div>
+								<div class="progress-bar">
+									<div
+										class="progress-fill"
+										id="technicalProgress"
+										style="width: 0%"
+									></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Time Estimator -->
+						<div class="time-estimator">
+							<div class="estimator-title">⏱️ Estimación de Tiempo</div>
+							<div class="estimator-grid">
+								<div class="estimator-item">
+									<div class="estimator-label">Progreso Total</div>
+									<div class="estimator-value" id="totalProgress">0%</div>
+								</div>
+								<div class="estimator-item">
+									<div class="estimator-label">Días Restantes</div>
+									<div class="estimator-value" id="daysRemaining">--</div>
+								</div>
+								<div class="estimator-item">
+									<div class="estimator-label">Tareas Completadas</div>
+									<div class="estimator-value" id="completedTasks">0</div>
+								</div>
+								<div class="estimator-item">
+									<div class="estimator-label">Total Tareas</div>
+									<div class="estimator-value" id="totalTasks">0</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Filters -->
+						<div class="filters-container">
+							<div class="filters-grid">
+								<div class="filter-group">
+									<label class="filter-label">Categoría</label>
+									<select
+										class="filter-select"
+										id="categoryFilter"
+										onchange="applyFilters()"
+									>
+										<option value="all">Todas las categorías</option>
+										<option value="critical">🔴 Críticas</option>
+										<option value="important">🟡 Importantes</option>
+										<option value="optional">🟢 Opcionales</option>
+										<option value="technical">🔧 Técnicas</option>
+										<option value="fixes">🔨 Correcciones</option>
+									</select>
+								</div>
+
+								<div class="filter-group">
+									<label class="filter-label">Estado</label>
+									<select
+										class="filter-select"
+										id="statusFilter"
+										onchange="applyFilters()"
+									>
+										<option value="all">Todos los estados</option>
+										<option value="pending">Pendientes</option>
+										<option value="completed">Completadas</option>
+									</select>
+								</div>
+
+								<div class="filter-group">
+									<label class="filter-label">Tiempo</label>
+									<select
+										class="filter-select"
+										id="timeFilter"
+										onchange="applyFilters()"
+									>
+										<option value="all">Todos los tiempos</option>
+										<option value="1">1 día</option>
+										<option value="2">2-3 días</option>
+										<option value="5">4-5 días</option>
+										<option value="7">1 semana+</option>
+									</select>
+								</div>
+
+								<button class="reset-filters" onclick="resetFilters()">
+									🔄 Resetear Filtros
+								</button>
+							</div>
+						</div>
+					</section>
+
+					<!-- Presentation Section -->
+					<section
+						id="presentation"
+						class="content-section"
+						style="display: none"
+					>
+						<div class="presentation-container">
+							<div class="presentation-header">
+								<h2>📖 Documentación de la Aplicación</h2>
+								<div class="presentation-controls">
+									<button class="btn-secondary" onclick="toggleEditMode()">
+										<span id="editModeText">✏️ Editar</span>
+									</button>
+									<button
+										class="btn-primary"
+										onclick="savePresentationContent()"
+										style="display: none"
+										id="saveBtn"
+									>
+										💾 Guardar
+									</button>
+								</div>
+							</div>
+
+							<div class="presentation-content">
+								<!-- Vista de solo lectura -->
+								<div id="presentationView" class="presentation-view">
+									<div class="content-section-block">
+										<h3>🚀 Descripción General</h3>
+										<p id="generalDescription">
+											SkillAgora es una plataforma de gestión de tareas y
+											freelancing que permite organizar proyectos, gestionar
+											tareas personalizadas y hacer seguimiento del progreso de
+											desarrollo.
+										</p>
+									</div>
+
+									<div class="content-section-block">
+										<h3>🔗 Endpoints y API</h3>
+										<div id="endpointsContent" class="endpoints-section">
+											<div class="endpoint-item">
+												<div class="endpoint-method get">GET</div>
+												<div class="endpoint-path">/api/tasks</div>
+												<div class="endpoint-description">
+													Obtiene todas las tareas del proyecto
+												</div>
+											</div>
+											<div class="endpoint-item">
+												<div class="endpoint-method post">POST</div>
+												<div class="endpoint-path">/api/tasks</div>
+												<div class="endpoint-description">
+													Crea una nueva tarea personalizada
+												</div>
+											</div>
+											<div class="endpoint-item">
+												<div class="endpoint-method delete">DELETE</div>
+												<div class="endpoint-path">/api/tasks/:id</div>
+												<div class="endpoint-description">
+													Elimina una tarea específica
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="content-section-block">
+										<h3>⚙️ Funcionalidades</h3>
+										<div id="featuresContent" class="features-grid">
+											<div class="feature-card">
+												<div class="feature-icon">📊</div>
+												<div class="feature-title">Dashboard Interactivo</div>
+												<div class="feature-description">
+													Visualización en tiempo real del progreso de tareas
+													por categorías
+												</div>
+											</div>
+											<div class="feature-card">
+												<div class="feature-icon">➕</div>
+												<div class="feature-title">Tareas Personalizadas</div>
+												<div class="feature-description">
+													Crear, editar y eliminar tareas propias con subtareas
+													y etiquetas
+												</div>
+											</div>
+											<div class="feature-card">
+												<div class="feature-icon">🔍</div>
+												<div class="feature-title">Sistema de Filtros</div>
+												<div class="feature-description">
+													Filtrar tareas por categoría, estado y tiempo estimado
+												</div>
+											</div>
+											<div class="feature-card">
+												<div class="feature-icon">📈</div>
+												<div class="feature-title">Estadísticas</div>
+												<div class="feature-description">
+													Métricas detalladas y estimaciones de finalización
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="content-section-block">
+										<h3>🛠️ Tecnologías</h3>
+										<div id="techContent" class="tech-stack">
+											<div class="tech-item">
+												<span class="tech-name">Frontend:</span>
+												<span class="tech-description"
+													>HTML5, CSS3, JavaScript ES6+</span
+												>
+											</div>
+											<div class="tech-item">
+												<span class="tech-name">Almacenamiento:</span>
+												<span class="tech-description"
+													>LocalStorage para persistencia de datos</span
+												>
+											</div>
+											<div class="tech-item">
+												<span class="tech-name">Arquitectura:</span>
+												<span class="tech-description"
+													>Módulos ES6, Sistema de componentes
+													reutilizables</span
+												>
+											</div>
+											<div class="tech-item">
+												<span class="tech-name">UI/UX:</span>
+												<span class="tech-description"
+													>Diseño responsivo, temas claro/oscuro</span
+												>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Editor de contenido -->
+								<div
+									id="presentationEditor"
+									class="presentation-editor"
+									style="display: none"
+								>
+									<div class="editor-section">
+										<label for="editGeneralDescription"
+											>📝 Descripción General:</label
+										>
+										<textarea
+											id="editGeneralDescription"
+											rows="4"
+											placeholder="Describe la aplicación, su propósito y objetivos principales..."
+										></textarea>
+									</div>
+
+									<div class="editor-section">
+										<label for="editEndpoints"
+											>🔗 Endpoints (uno por línea, formato: MÉTODO /ruta -
+											Descripción):</label
+										>
+										<textarea
+											id="editEndpoints"
+											rows="8"
+											placeholder="GET /api/tasks - Obtiene todas las tareas&#10;POST /api/tasks - Crea una nueva tarea&#10;PUT /api/tasks/:id - Actualiza una tarea&#10;DELETE /api/tasks/:id - Elimina una tarea"
+										></textarea>
+									</div>
+
+									<div class="editor-section">
+										<label for="editFeatures"
+											>⚙️ Funcionalidades (una por línea, formato:
+											Icono|Título|Descripción):</label
+										>
+										<textarea
+											id="editFeatures"
+											rows="6"
+											placeholder="📊|Dashboard|Visualización del progreso de tareas&#10;➕|Gestión de Tareas|Crear y eliminar tareas personalizadas&#10;🔍|Filtros|Sistema de búsqueda y filtrado"
+										></textarea>
+									</div>
+
+									<div class="editor-section">
+										<label for="editTech"
+											>🛠️ Tecnologías (una por línea, formato: Categoría:
+											Descripción):</label
+										>
+										<textarea
+											id="editTech"
+											rows="6"
+											placeholder="Frontend: HTML5, CSS3, JavaScript ES6+&#10;Backend: Node.js, Express&#10;Base de Datos: MongoDB&#10;Autenticación: JWT"
+										></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section id="proposal" class="content-section" style="display: none">
+						<div
+							style="
+								background: var(--card-bg);
+								padding: 30px;
+								border-radius: 12px;
+								border: 1px solid var(--border-color);
+							"
+						>
+							<h2 style="color: var(--primary-color); margin-bottom: 20px">
+								📋 Propuesta Original del Proyecto
+							</h2>
+							<div
+								style="
+									background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+									color: white;
+									padding: 25px;
+									border-radius: 12px;
+									margin-bottom: 25px;
+									text-align: center;
+								"
+							>
+								<h1 style="font-size: 2.5em; margin-bottom: 10px">
+									SkillAgora
+								</h1>
+								<p style="font-size: 1.2em; font-style: italic">
+									Where every skill is an achievement.
+								</p>
+							</div>
+							<p>
+								SkillAgora es una plataforma de freelancing que conecta
+								profesionales independientes con clientes que necesitan
+								servicios especializados.
+							</p>
+						</div>
+					</section>
+
+					<!-- Task Sections -->
+					<section id="critical" class="content-section" style="display: none">
+						<div id="criticalTasks"></div>
+					</section>
+
+					<section id="important" class="content-section" style="display: none">
+						<div id="importantTasks"></div>
+					</section>
+
+					<section id="optional" class="content-section" style="display: none">
+						<div id="optionalTasks"></div>
+					</section>
+
+					<section id="technical" class="content-section" style="display: none">
+						<div id="technicalTasks"></div>
+					</section>
+
+					<section id="fixes" class="content-section" style="display: none">
+						<div id="fixesTasks"></div>
+					</section>
+
+					<!-- Timeline Section -->
+					<section id="timeline" class="content-section" style="display: none">
+						<div
+							style="
+								background: var(--card-bg);
+								padding: 30px;
+								border-radius: 12px;
+							"
+						>
+							<h2 style="color: var(--primary-color)">
+								⏱️ Timeline de Desarrollo
+							</h2>
+							<p>Información sobre el cronograma del proyecto...</p>
+						</div>
+					</section>
+				</div>
+			</main>
+		</div>
+
+		<!-- Back to Top Button -->
+		<button
+			class="back-to-top"
+			id="backToTop"
+			style="display: none"
+			onclick="scrollToTop()"
+		>
+			↑
+		</button>
+
+		<!-- JavaScript Principal - Solo una línea! -->
+		<script type="module" src="assets/js/main.js"></script>
+	</body>
+</html>
