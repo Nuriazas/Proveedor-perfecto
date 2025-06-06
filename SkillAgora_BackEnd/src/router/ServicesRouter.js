@@ -32,7 +32,7 @@ servicesRouter.get("/services/featured", getFeaturedServicesController);
 servicesRouter.get("/service/statistics", getServiceStatisticsController);
 
 // Enpoint actualización servicio/producto
-servicesRouter.put("/service/update/:id", updateServiceController);
+servicesRouter.put("/service/update/", authMiddleware, updateServiceController);
 
 servicesRouter.get("/service/:id", getServiceDetailsByIdController);
 

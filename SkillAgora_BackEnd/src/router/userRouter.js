@@ -38,7 +38,7 @@ router.get("/users/freelancers/:id", getFreelancerByIdController);
 router.post('/change-password', authMiddleware, changePasswordUser);
 
 //Ruta para la información del usuario
-router.get("/profile", authMiddleware, getProfile);
+router.get("/users/profile/:name", authMiddleware, getProfile);
 
 
 

@@ -4,7 +4,13 @@ import bcrypt from "bcrypt";
 import sendMailBrevoUtils from "../../utils/sendMailBrevoUtils.js";
 
 // Servicio para insertar un nuevo usuario en la base de datos
-const insertUserService = async (email, password, registrationCode, firstName, lastName) => {
+const insertUserService = async (
+	email,
+	password,
+	registrationCode,
+	name,
+	lastName
+) => {
 	const pool = await getPool();
 
 	// Verificar si el usuario ya existe
@@ -43,10 +49,10 @@ const insertUserService = async (email, password, registrationCode, firstName, l
 
 	await pool.query(
 		`
-        INSERT INTO users (email, password, registrationCode, firstName, lastName) 
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO users (email, password, registrationCode, name, lastName) 
+        VALUES (?, ?, ?, ?, ?)
         `,
-		[email, hashedPassword, registrationCode, firstName, lastName]
+		[email, hashedPassword, registrationCode, name, lastName]
 	);
 };
 
