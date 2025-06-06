@@ -39,7 +39,7 @@ const createServiceService = async ({user_id,category_name,place,title,descripti
                     s.price,
                     c.name AS category_name,
                     u.name,
-                    u.firstName,
+                    u.name,
                     u.lastName
                 FROM services s
                 JOIN categories c ON s.category_id = c.id

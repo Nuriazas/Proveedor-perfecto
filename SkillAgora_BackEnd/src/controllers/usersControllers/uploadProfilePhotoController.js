@@ -1,6 +1,5 @@
 import { uploadProfilePhotoService } from "../../services/usersServices/uploadProfilePhotoService.js";
 
-
 const uploadProfilePhotoController = async (req, res) => {
 	try {
 		if (!req.files || !req.files.img) {
@@ -15,9 +14,9 @@ const uploadProfilePhotoController = async (req, res) => {
 		}
 		const img = req.files.img;
 
-		const oldImg = req.body.profileImg; // Nombre de la imagen anterior, si existe
+		// const oldImg = req.body.profileImg; // Nombre de la imagen anterior, si existe
 
-		const result = await uploadProfilePhotoService(img, oldImg);
+		const result = await uploadProfilePhotoService(img, );
 
 		res.status(200).json(result);
 	} catch (error) {

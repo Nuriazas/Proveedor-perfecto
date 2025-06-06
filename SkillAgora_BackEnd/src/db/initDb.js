@@ -28,7 +28,7 @@ const initDb = async () => {
 		await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                firstName VARCHAR(50) DEFAULT NULL,
+                name VARCHAR(50) DEFAULT NULL,
                 lastName VARCHAR(50) DEFAULT NULL,
                 email VARCHAR(100) UNIQUE,
                 password VARCHAR(255),
@@ -117,6 +117,7 @@ const initDb = async () => {
                 price DECIMAL(10, 2),
                 delivery_time_days INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 FOREIGN KEY (category_id) REFERENCES categories(id)
         )
@@ -258,7 +259,7 @@ const initDb = async () => {
 			const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
 			await pool.query(
 				`
-                    INSERT INTO users (firstName, lastName, email, password, is_admin, active)
+                    INSERT INTO users (name, lastName, email, password, is_admin, active)
                     VALUES ('Admin', 'Admin', ?, ?, true, true)
                 `,
 				[process.env.ADMIN_EMAIL, hashedPassword]

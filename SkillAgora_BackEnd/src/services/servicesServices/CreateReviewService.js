@@ -24,7 +24,7 @@ const createReviewService = async (orderId, reviewerId, rating, comment) => {
 			);
 		}
 
-		if (typeof rating !== "number" || rating <= 0 || rating >= 5) {
+		if (typeof rating !== "number" || rating <= 0 || rating >= 6) {
 			throw generateErrorsUtils("La puntuación debe estar entre 1 y 5", 400);
 		}
 

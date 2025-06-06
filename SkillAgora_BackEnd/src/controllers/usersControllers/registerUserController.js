@@ -7,12 +7,12 @@ const registerUserController = async (req, res, next) => {
 	
 
 		try {
-			const { email, password, firstName, lastName} = req.body;
+			const { email, password, name, lastName} = req.body;
 			console.log(
 			`Depuración recibo de email por req.body en el endpoint register: ${email}`
 		);
 			// Validar que se proporcionen email y password
-			if (!email || !password || !firstName || !lastName)
+			if (!email || !password || !name || !lastName)
 				throw generateErrorsUtils("Faltan campos obligatorios", 400);
 			let avatar = null;
 			if(req.files && req.files.avatar) {
@@ -25,7 +25,7 @@ const registerUserController = async (req, res, next) => {
 				charset: "alphanumeric",
 			});
 
-			await insertUserService(email, password, registrationCode, firstName, lastName);
+			await insertUserService(email, password, registrationCode, name, lastName);
 
 			res.send({
 				status: "ok",

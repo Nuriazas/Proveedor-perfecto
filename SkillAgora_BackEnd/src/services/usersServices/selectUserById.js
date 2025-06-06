@@ -16,7 +16,7 @@ const selectUserById = async (nameQuery) => {
                    u.id, 
                    u.email,
                    u.name,
-                   u.firstName,
+                   u.name,
                    u.lastName,
                    u.avatar,
                    u.role,

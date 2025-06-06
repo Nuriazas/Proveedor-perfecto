@@ -3,23 +3,22 @@ import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
 const updateServiceController = async (req, res, next) => {
 	try {
-		// Obtenemos los datos del cuerpo de la solicitud
 		const {
 			id,
 			title,
 			description,
 			price,
 			delivery_time_days,
-			place,
-			category_id,
+			place
 		} = req.body;
 
-		// Validamos que se haya proporcionado un ID
+		// Obtenemos el ID del usuario logueado desde el token (req.user)
+		const userId = req.user.id;
+
 		if (!id) {
 			throw generateErrorsUtils("Service ID is required.", 400);
 		}
 
-		// Llamamos al servicio para actualizar el servicio
 		const result = await updateServiceService(
 			id,
 			title,
@@ -27,10 +26,9 @@ const updateServiceController = async (req, res, next) => {
 			price,
 			delivery_time_days,
 			place,
-			category_id
+			userId // <- se lo pasamos aquí
 		);
 
-		// Enviamos la respuesta con el resultado de la actualización
 		res.status(200).json({ message: "Service updated successfully", result });
 	} catch (error) {
 		next(error);

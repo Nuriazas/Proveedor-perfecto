@@ -14,7 +14,6 @@ const getContactRequestNotificationsService = async () => {
 		const query = `
         SELECT * FROM notification n
         JOIN users u ON n.user_id = u.id
-        WHERE n.type = 'message' AND n.is_read = false
         ORDER BY n.created_at DESC
         `;
 
