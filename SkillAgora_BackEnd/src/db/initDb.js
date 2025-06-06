@@ -127,12 +127,14 @@ const initDb = async () => {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 client_id INT,
                 services_id INT,
+                freelancer_id INT,
                 status ENUM('pending', 'in_progress', 'delivered', 'completed', 'cancelled') DEFAULT 'pending',
                 total_price DECIMAL(10,2),
                 ordered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 currency_code VARCHAR(10) DEFAULT 'USD',
-                FOREIGN KEY (services_id) REFERENCES services(id) ON DELETE CASCADE
-                
+                FOREIGN KEY (services_id) REFERENCES services(id) ON DELETE CASCADE,
+                FOREIGN KEY (client_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (freelancer_id) REFERENCES users(id) ON DELETE CASCADE
         )
     `);
 		await pool.query(`
@@ -169,14 +171,8 @@ const initDb = async () => {
 		await pool.query(`
                     CREATE TABLE IF NOT EXISTS notification (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-
-                -- Usuario al que se dirige la notificación
                 user_id INT,
-
-                -- Texto de la notificación
                 content TEXT,
-
-                -- Tipo de notificación (para distinguir la lógica: mensajes, pedidos, solicitudes de contacto, etc.)
                 type ENUM(
                     'order', 
                     'message', 
@@ -185,8 +181,6 @@ const initDb = async () => {
                     'contact_request', 
                     'support'
                 ) DEFAULT 'system',
-
-                -- Estado específico dentro del tipo: por ejemplo, si es una solicitud de contacto puede estar aceptada, pendiente, etc.
                 status ENUM(
                     'contact_request_accepted', 
                     'contact_request_rejected', 
@@ -194,21 +188,16 @@ const initDb = async () => {
                     'order_placed', 
                     'order_delivered', 
                     'order_completed', 
+                    'order_cancelled',
+                    'order_in_progress',
                     'review_received', 
                     'message_received', 
                     'system_update'
                 ) DEFAULT 'contact_request_pending',
-
-                -- Si el usuario ya la leyó
                 is_read BOOLEAN DEFAULT FALSE,
-
-                -- Si se ha enviado un correo por esta notificación
                 email_sent BOOLEAN DEFAULT FALSE,
                 email_sent_at TIMESTAMP NULL,
-
-                -- Fecha de creación de la notificación
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )`);
 		await pool.query(`
