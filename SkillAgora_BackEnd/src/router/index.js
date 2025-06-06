@@ -12,21 +12,21 @@ import adminRouter from "./adminRouter.js";
 const router = express.Router();
 
 // Rutas de notificaciones
-router.use("/notifications", notificationsRouter);
+router.use( notificationsRouter);
 
 // Rutas de usuarios
-router.use("/users", userRouter);
+router.use( userRouter);
 
 // Rutas de servicios
-router.use("/services", servicesRouter);
+router.use( servicesRouter);
 
 // Rutas de reseñas
-router.use("/reviews", reviewsRouter);
+router.use( reviewsRouter);
 
 // Rutas de contacto
-router.use("/contact", contactRouter);
+router.use( contactRouter);
 
 // Rutas de administración
-router.use("/admin", adminRouter);
+router.use(adminRouter);
 
 export default router;
