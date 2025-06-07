@@ -15,6 +15,12 @@ router.get("/orders/:action/:orderId", authMiddleware, orderNotificationsControl
 router.put("/orders/:action/:orderId", authMiddleware, orderNotificationsController);
 router.delete("/orders/:action/:orderId", authMiddleware, orderNotificationsController);
 
+//ruta para aceptar orden
+router.put("/orders/:action/:orderId", authMiddleware, orderNotificationsController);
+
+//ruta para entrega de pedido
+router.post("/orders/delivered/:orderId",authMiddleware, orderNotificationsController);
+
 // Rutas para solicitudes de contacto
 router.post("/contact-request", authMiddleware, sendContactRequestController);
 router.put("/contact-request/:requestId/accept", authMiddleware, acceptContactRequestController);

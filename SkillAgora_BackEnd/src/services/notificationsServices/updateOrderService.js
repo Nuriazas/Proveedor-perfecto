@@ -1,9 +1,14 @@
 import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
-const updateOrderService = async (orderId, userId, status) => {
+const updateOrderService = async (userId,
+                        updateOrderId,
+                        updateData) => {
+    
+
     try {
         const pool = await getPool();
+        const { status } = updateData;
 
         // Verificar que la orden existe y pertenece al usuario
         const [order] = await pool.query(
@@ -11,8 +16,9 @@ const updateOrderService = async (orderId, userId, status) => {
             FROM orders o 
             JOIN services s ON o.services_id = s.id 
             WHERE o.id = ? AND (o.client_id = ? OR s.user_id = ?)`,
-            [orderId, userId, userId]
+            [updateOrderId, userId, userId]
         );
+        console.log("Resultado de SELECT para verificar orden:", order);
 
         if (order.length === 0) {
             throw generateErrorsUtils("Orden no encontrada o no tienes permisos", 404);
@@ -27,7 +33,7 @@ const updateOrderService = async (orderId, userId, status) => {
         // Actualizar la orden
         await pool.query(
             "UPDATE orders SET status = ? WHERE id = ?",
-            [status, orderId]
+            [status, updateOrderId]
         );
 
         // Crear notificación para el otro usuario
@@ -58,12 +64,12 @@ const updateOrderService = async (orderId, userId, status) => {
                     is_read,
                     created_at
                 ) VALUES (?, 'order', ?, ?, false, NOW())`,
-                [notificationUserId, `Orden #${orderId}: ${statusMessages[status]}`, notificationStatus[status]]
+                [notificationUserId, `Orden #${updateOrderId}: ${statusMessages[status]}`, notificationStatus[status]]
             );
         }
 
         return {
-            orderId,
+            updateOrderId,
             status,
             message: statusMessages[status] || 'Estado actualizado'
         };

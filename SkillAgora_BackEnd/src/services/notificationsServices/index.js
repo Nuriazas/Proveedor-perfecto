@@ -6,6 +6,7 @@ import deleteOrderService from "./deleteOrderService.js";
 import sendContactRequestService from "./sendContactRequestService.js";
 import acceptContactRequestService from "./acceptContactRequestService.js";
 import getContactRequestNotificationsService from "./getContactRequestNotificationsService.js";
+import acceptOrderService from "./acceptOrderService.js"
 
 export {
     createOrderService,
@@ -15,5 +16,6 @@ export {
     deleteOrderService,
     sendContactRequestService,
     acceptContactRequestService,
-    getContactRequestNotificationsService
+    getContactRequestNotificationsService,
+    acceptOrderService
 }; 

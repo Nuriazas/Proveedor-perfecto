@@ -14,6 +14,10 @@ const createOrderService = async (userId, services_id, total_price, currency_cod
         if (service.length === 0) {
             throw generateErrorsUtils("El servicio no existe", 404);
         }
+        if (userId === service[0].freelancer_id) {
+        throw generateErrorsUtils("No puedes comprar tu propio servicio", 400);
+        }
+
 
         // Crear la orden
         const [result] = await pool.query(

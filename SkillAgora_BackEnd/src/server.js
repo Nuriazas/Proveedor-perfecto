@@ -16,7 +16,7 @@ server.use(cors());
 // Configurar el servidor para que pueda recibir archivos
 server.use(
 	fileUpload({
-		limits: { fileSize: 3 * 1024 * 1024 },
+		limits: { fileSize: 50 * 1024 * 1024 },
 		abortOnLimit: true,
 		responseOnLimit: "archvo demadiado grande",
 		safeFileNames: true,
