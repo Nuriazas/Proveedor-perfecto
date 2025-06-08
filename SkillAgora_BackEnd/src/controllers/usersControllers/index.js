@@ -7,6 +7,7 @@ import getFreelancerByIdController from "./getFreelancerByIdController.js";
 import requestFreelancerStatusController from "../contactsControllers/requestFreelancerStatusController.js";
 import getProfile from "./getProfile.js";
 import changePasswordUser from "./changePasswordUser.js";
+import sendForgotPassCodeController from "./sendForgotPassCodeController.js";
 
 export {
 	registerUserController,
@@ -18,4 +19,5 @@ export {
 	requestFreelancerStatusController,
 	getProfile,
 	changePasswordUser,
+	sendForgotPassCodeController
 };

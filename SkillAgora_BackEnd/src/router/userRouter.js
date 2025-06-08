@@ -9,6 +9,7 @@ import {
 	requestFreelancerStatusController,
 	changePasswordUser,
 	getProfile,
+	sendForgotPassCodeController
 } from "../controllers/usersControllers/index.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -27,6 +28,10 @@ router.get(
 
 // Ruta para iniciar sesión de usuario
 router.post("/users/login", loginUserController);
+
+router.post('/users/forgot-password', sendForgotPassCodeController
+);
+
 
 // Ruta para subir la foto de perfil del usuario
 router.post("/users/upload", uploadProfilePhotoController);
