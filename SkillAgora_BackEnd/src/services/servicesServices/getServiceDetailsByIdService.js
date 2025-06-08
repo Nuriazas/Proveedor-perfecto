@@ -18,14 +18,13 @@ const getServiceDetailsByIdService = async (serviceId) => {
             WHERE s.id = ?
             `;
 
-        const [rows] = await pool.query(query, [serviceId]);
+		const [rows] = await pool.query(query, [serviceId]);
 
-        if (rows.length === 0) {
-            throw generateErrorsUtils("Service not found", 404);
-            }
+		if (rows.length === 0) {
+			throw generateErrorsUtils("Service not found", 404);
+		}
 
-            return rows[0];
-
+		return rows[0];
 	} catch (error) {}
 };
 

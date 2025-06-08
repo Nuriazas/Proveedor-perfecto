@@ -8,7 +8,9 @@ import {
 	getServiceDetailsByIdController,
 	getAllServicesController,
 	createServiceController,
-	getAllServicesByFiltersController
+	getAllServicesByFiltersController,
+	createReviewController,
+	getFreelancerReviewsController
 } from "../controllers/servicesControllers/index.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -32,13 +34,19 @@ servicesRouter.get("/services/featured", getFeaturedServicesController);
 servicesRouter.get("/service/statistics", getServiceStatisticsController);
 
 // Enpoint actualización servicio/producto
-servicesRouter.put("/service/update/", authMiddleware, updateServiceController);
+servicesRouter.put("/service/:action/:serviceId", authMiddleware, updateServiceController);
 
 servicesRouter.get("/service/:id", getServiceDetailsByIdController);
 
 servicesRouter.post("/create-service", authMiddleware,createServiceController); 
 // Endpoint filtros y ordenaciones de servicios
 servicesRouter.get("/services/filters", getAllServicesByFiltersController);
+
+// Crear una nueva valoración (requiere autenticación)
+servicesRouter.post("/newreview", authMiddleware, createReviewController);
+
+// Obtener valoraciones de un freelancer
+servicesRouter.get("/freelancer/:freelancer_id", getFreelancerReviewsController);
 
 
 

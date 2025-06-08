@@ -1,8 +1,7 @@
 import express from "express";
-import notificationsRouter from "./notificationsRouter.js";
 import userRouter from "./userRouter.js";
 import servicesRouter from "./ServicesRouter.js";
-import reviewsRouter from "./reviewsRouter.js";
+import ordersRouter from "./ordersRouter.js";
 import contactRouter from "./contactRouter.js";
 import adminRouter from "./adminRouter.js";
 
@@ -11,20 +10,17 @@ import adminRouter from "./adminRouter.js";
 // Este router se encargará de manejar las rutas de la aplicación
 const router = express.Router();
 
-// Rutas de notificaciones
-router.use( notificationsRouter);
-
 // Rutas de usuarios
-router.use( userRouter);
+router.use(userRouter);
 
 // Rutas de servicios
-router.use( servicesRouter);
+router.use(servicesRouter);
 
 // Rutas de reseñas
-router.use( reviewsRouter);
+router.use(ordersRouter);
 
 // Rutas de contacto
-router.use( contactRouter);
+router.use(contactRouter);
 
 // Rutas de administración
 router.use(adminRouter);

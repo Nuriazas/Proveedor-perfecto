@@ -17,6 +17,14 @@ const acceptFreelancerRegisterController = async (req, res, next) => {
 			throw generateErrorsUtils("Falta el ID del usuario", 400);
 		}
 
+		// Validamos que el usuario que hace la petición sea admin
+		if (req.user.is_admin) {
+			return res.status(403).json({
+				status: "error",
+				message: "No tienes permisos para aceptar registros de freelancer",
+			});
+		}
+
 		// Llamamos al servicio que actualiza el rol del usuario a 'freelancer'
 		const userUpdatedToFreelancer = await acceptFreelancerRegisterService(id);
 

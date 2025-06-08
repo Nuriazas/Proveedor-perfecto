@@ -39,6 +39,7 @@ const loginUserController = async (req, res, next) => {
 			name: user.name,
 			firstName: user.firstName,
 			lastName: user.lastName,
+			is_admin: user.is_admin,
 		};
 
 		// Firmar el token con la clave secreta y establecer una expiración

@@ -2,11 +2,12 @@ import getPool from "../../db/getPool.js";
 
 // Servicio para obtener todas las valoraciones de un freelancer
 const getFreelancerReviewsService = async (freelancerId) => {
-    try {
-        const pool = await getPool();
+	try {
+		const pool = await getPool();
 
-        // Obtener valoraciones con información del cliente y servicio
-        const [reviews] = await pool.query(`
+		// Obtener valoraciones con información del cliente y servicio
+		const [reviews] = await pool.query(
+			`
             SELECT 
                 r.id,
                 r.rating,
@@ -24,10 +25,13 @@ const getFreelancerReviewsService = async (freelancerId) => {
             JOIN users u ON o.client_id = u.id
             WHERE s.user_id = ?
             ORDER BY r.created_at DESC
-        `, [freelancerId]);
+        `,
+			[freelancerId]
+		);
 
-        // Calcular el promedio de valoraciones
-        const [avgResult] = await pool.query(`
+		// Calcular el promedio de valoraciones
+		const [avgResult] = await pool.query(
+			`
             SELECT 
                 AVG(r.rating) as average_rating,
                 COUNT(r.id) as total_reviews,
@@ -36,24 +40,27 @@ const getFreelancerReviewsService = async (freelancerId) => {
             JOIN orders o ON r.order_id = o.id
             JOIN services s ON o.services_id = s.id
             WHERE s.user_id = ?
-        `, [freelancerId]);
+        `,
+			[freelancerId]
+		);
 
-        // Formatear el promedio a un decimal
-        const averageRating = parseFloat(avgResult[0].average_rating || 0).toFixed(1);
+		// Formatear el promedio a un decimal
+		const averageRating = parseFloat(avgResult[0].average_rating || 0).toFixed(
+			1
+		);
 
-        return {
-            reviews,
-            statistics: {
-                averageRating,
-                totalReviews: avgResult[0].total_reviews,
-                fiveStarReviews: avgResult[0].five_star_reviews
-            }
-        };
-
-    } catch (error) {
-        console.error('Error en getFreelancerReviewsService:', error);
-        throw error;
-    }
+		return {
+			reviews,
+			statistics: {
+				averageRating,
+				totalReviews: avgResult[0].total_reviews,
+				fiveStarReviews: avgResult[0].five_star_reviews,
+			},
+		};
+	} catch (error) {
+		console.error("Error en getFreelancerReviewsService:", error);
+		throw error;
+	}
 };
 
 // Este servicio maneja la lógica de negocio para obtener las reseñas de un freelancer.

@@ -3,12 +3,12 @@ import getPool from "../../db/getPool.js";
 
 // Servicio para obtener todos los usuarios que son freelancers
 async function getAllFreelancers() {
-    // Obtenemos la conexión a la base de datos
-    const pool = await getPool();
-    
-    try {
-        // Ejecutamos consulta SQL para obtener solo freelancers
-        const [freelancers] = await pool.query(`
+	// Obtenemos la conexión a la base de datos
+	const pool = await getPool();
+
+	try {
+		// Ejecutamos consulta SQL para obtener solo freelancers
+		const [freelancers] = await pool.query(`
             SELECT 
                 id,
                 name,
@@ -21,19 +21,18 @@ async function getAllFreelancers() {
             GROUP BY id
         `);
 
-        // Explicación del SQL:
-        // - SELECT: seleccionamos datos básicos del perfil
-        // - FROM users: tabla de usuarios
-        // - WHERE role = 'freelancer': filtramos solo freelancers
-        // - GROUP BY id: agrupamos por ID (elimina duplicados si los hay)
+		// Explicación del SQL:
+		// - SELECT: seleccionamos datos básicos del perfil
+		// - FROM users: tabla de usuarios
+		// - WHERE role = 'freelancer': filtramos solo freelancers
+		// - GROUP BY id: agrupamos por ID (elimina duplicados si los hay)
 
-        // Devolvemos la lista de freelancers
-        return freelancers;
-        
-    } catch (error) {
-        // Si hay error, creamos un mensaje más descriptivo
-        throw new Error("Error al obtener los freelancers: " + error.message);
-    }
+		// Devolvemos la lista de freelancers
+		return freelancers;
+	} catch (error) {
+		// Si hay error, creamos un mensaje más descriptivo
+		throw new Error("Error al obtener los freelancers: " + error.message);
+	}
 }
 
 export default getAllFreelancers;

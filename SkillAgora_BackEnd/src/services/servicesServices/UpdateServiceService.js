@@ -2,21 +2,21 @@ import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
 const updateServiceService = async (
-	id,
 	title,
 	description,
 	price,
 	delivery_time_days,
 	place,
-	userId // <-- ahora recibimos el userId del token
+	serviceId,
+	userId
 ) => {
 	const pool = await getPool();
 
 	try {
 		// 1. Verificamos que el servicio exista y pertenezca al usuario logueado
 		const [service] = await pool.query(
-			"SELECT user_id FROM services WHERE id = ?",
-			[id]
+			"SELECT user_id FROM services WHERE id = ?", // ✅ Campo correcto
+			[serviceId] // ✅ Parámetro correcto
 		);
 
 		if (service.length === 0) {
@@ -30,7 +30,7 @@ const updateServiceService = async (
 			);
 		}
 
-		// 2. Actualizamos el servicio (sin category_id)
+		// 2. Actualizamos el servicio
 		const query = `
 			UPDATE services
 			SET 
@@ -41,7 +41,7 @@ const updateServiceService = async (
 				place = ?, 
 				updated_at = NOW()
 			WHERE id = ?
-		`;
+		`; // ✅ Query corregida - solo un WHERE
 
 		const [result] = await pool.execute(query, [
 			title,
@@ -49,7 +49,7 @@ const updateServiceService = async (
 			price,
 			delivery_time_days,
 			place,
-			id,
+			serviceId // ✅ Solo serviceId al final
 		]);
 
 		if (result.affectedRows === 0) {

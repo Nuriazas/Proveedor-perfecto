@@ -1,6 +1,4 @@
-
 import getServiceDetailsByIdService from "../../services/servicesServices/getServiceDetailsByIdService.js";
-
 
 const getServiceDetailsByIdController = async (req, res, next) => {
 	try {

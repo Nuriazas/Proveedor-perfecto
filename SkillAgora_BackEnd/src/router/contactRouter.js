@@ -1,8 +1,8 @@
 import express from "express";
 import {
-  getContactRequestNotificationsController,
-  sendContactRequestController,
-  acceptContactRequestController,
+	getContactRequestNotificationsController,
+	sendContactRequestController,
+	acceptContactRequestController,
 } from "../controllers/contactsControllers/index.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -16,9 +16,16 @@ router.get("/notifications/contacts", getContactRequestNotificationsController);
 router.post("/contact/request", authMiddleware, sendContactRequestController);
 // Endpoint para aceptar una solicitud de contacto
 router.post(
-  "/contact-request/:notificationId/accept",
-  authMiddleware,
-  acceptContactRequestController
+	"/contact-request/:notificationId/accept",
+	authMiddleware,
+	acceptContactRequestController
+);
+
+// Rutas para solicitudes de contacto
+router.put(
+	"/contact-request/:requestId/accept",
+	authMiddleware,
+	acceptContactRequestController
 );
 
 export default router;

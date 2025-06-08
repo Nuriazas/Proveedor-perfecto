@@ -1,22 +1,21 @@
 // Importamos el servicio que obtiene las categorías de la base de datos
-import getCategoriesService from '../../services/servicesServices/getCategoriesService.js';
+import getCategoriesService from "../../services/servicesServices/getCategoriesService.js";
 
 // Controlador para manejar la petición de obtener categorías
 const getCategoriesController = async (req, res, next) => {
-    try {
-        // Llamamos al servicio para obtener las categorías
-        const categories = await getCategoriesService();
-        
-        // Enviamos respuesta exitosa con las categorías
-        res.status(200).json({ 
-            success: true, 
-            data: categories 
-        });
-        
-    } catch (error) {
-        // Si hay error, lo pasamos al middleware de errores
-        next(error);
-    }
+	try {
+		// Llamamos al servicio para obtener las categorías
+		const categories = await getCategoriesService();
+
+		// Enviamos respuesta exitosa con las categorías
+		res.status(200).json({
+			success: true,
+			data: categories,
+		});
+	} catch (error) {
+		// Si hay error, lo pasamos al middleware de errores
+		next(error);
+	}
 };
 
 export default getCategoriesController;

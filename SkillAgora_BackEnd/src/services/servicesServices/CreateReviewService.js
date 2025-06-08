@@ -31,9 +31,9 @@ const createReviewService = async (orderId, reviewerId, rating, comment) => {
 		// Verificamos que el pedido existe y pertenece al usuario
 		const [order] = await pool.query(
 			`SELECT o.*, s.user_id as freelancer_id 
-             FROM orders o 
-             JOIN services s ON o.services_id = s.id 
-             WHERE o.id = ? AND o.client_id = ?`,
+            FROM orders o 
+            JOIN services s ON o.services_id = s.id 
+            WHERE o.id = ? AND o.client_id = ?`,
 			[orderId, reviewerId]
 		);
 

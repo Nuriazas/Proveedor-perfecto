@@ -4,7 +4,7 @@ import validateUserController from "./validateUserController.js";
 import uploadProfilePhotoController from "./uploadProfilePhotoController.js";
 import getAllFreelancersController from "./getAllFreelancersController.js";
 import getFreelancerByIdController from "./getFreelancerByIdController.js";
-import requestFreelancerStatusController from "./requestFreelancerStatusController.js";
+import requestFreelancerStatusController from "../contactsControllers/requestFreelancerStatusController.js";
 import getProfile from "./getProfile.js";
 import changePasswordUser from "./changePasswordUser.js";
 
@@ -17,5 +17,5 @@ export {
 	uploadProfilePhotoController,
 	requestFreelancerStatusController,
 	getProfile,
-	changePasswordUser
+	changePasswordUser,
 };

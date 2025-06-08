@@ -3,7 +3,7 @@ import acceptContactRequestController from "./acceptContactRequestController.js"
 import sendContactRequestController from "./sendContactRequestController.js";
 
 export {
-  getContactRequestNotificationsController,
-  acceptContactRequestController,
-  sendContactRequestController,
+	getContactRequestNotificationsController,
+	acceptContactRequestController,
+	sendContactRequestController,
 };
