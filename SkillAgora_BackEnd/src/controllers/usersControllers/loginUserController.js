@@ -13,7 +13,7 @@ const loginUserController = async (req, res, next) => {
 		if (!email || !password)
 			throw generateErrorsUtils("Faltan datos, email y password", 400);
 
-		const user = await selectUserByEmailService(email); // Solo necesitas el email
+		const user = await selectUserByEmailService(email);
 
 		// Verificar si el usuario existe y si la contraseña es correcta
 		let isPasswordValid = false;
@@ -28,7 +28,6 @@ const loginUserController = async (req, res, next) => {
 		// Verificar si el usuario está activo
 		if (!user.active) {
 			console.log(user.active);
-
 			throw generateErrorsUtils("Usuario inactivo", 403);
 		}
 
@@ -37,8 +36,7 @@ const loginUserController = async (req, res, next) => {
 			id: user.id,
 			email: user.email,
 			name: user.name,
-			firstName: user.firstName,
-			lastName: user.lastName,
+			lastName: user.lastName, // CORREGIDO: era firstName, ahora lastName
 			is_admin: user.is_admin,
 		};
 
