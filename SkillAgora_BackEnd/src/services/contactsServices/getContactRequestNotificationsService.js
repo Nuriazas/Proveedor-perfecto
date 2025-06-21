@@ -11,11 +11,18 @@ const getContactRequestNotificationsService = async () => {
 
 		// Consulta que selecciona todas las notificaciones de tipo 'message' que no han sido leídas
 		// Se hace join con la tabla de usuarios para obtener más información si se necesitara
-		const query = `
+		// const query = `
+        // SELECT * FROM notification n
+        // JOIN users u ON n.user_id = u.id
+        // ORDER BY n.created_at DESC
+        // `;
+
+		 const query = `
         SELECT * FROM notification n
         JOIN users u ON n.user_id = u.id
+        WHERE n.user_id = ?  // Filtrar por usuario
         ORDER BY n.created_at DESC
-        `;
+        `; 
 
 		// Ejecutamos la consulta
 		const [notifications] = await pool.execute(query);

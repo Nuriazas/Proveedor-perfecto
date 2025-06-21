@@ -7,7 +7,8 @@ import getContactRequestNotificationsService from "../../services/contactsServic
 const getContactRequestNotificationsController = async (req, res, next) => {
 	try {
 		// Llamamos al servicio para obtener las notificaciones
-		const results = await getContactRequestNotificationsService();
+		const userId = req.user.id;
+		const results = await getContactRequestNotificationsService(userId);
 
 		// Enviamos respuesta exitosa con los resultados obtenidos
 		res.status(200).json({ success: true, data: results });

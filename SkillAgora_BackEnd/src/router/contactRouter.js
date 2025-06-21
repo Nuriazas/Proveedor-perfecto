@@ -10,7 +10,7 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // Endpoint lista solicitudes de contacto
-router.get("/notifications/contacts", getContactRequestNotificationsController);
+router.get("/notifications/contacts", authMiddleware, getContactRequestNotificationsController);
 
 // Endpoint para enviar solicitud de contacto a proveedor
 router.post("/contact/request", authMiddleware, sendContactRequestController);
