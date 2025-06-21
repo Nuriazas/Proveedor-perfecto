@@ -2,13 +2,13 @@ import getpool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
 const getContactRequestNotificationsService = async (userId) => {
-    try {
-        console.log("🗄️ Servicio notifications - userId:", userId);
-        
-        const pool = await getpool();
+  try {
+    console.log("🗄️ Servicio notifications - userId:", userId);
 
-        // Query con JOIN para obtener el nombre del remitente
-        const query = `
+    const pool = await getpool();
+
+    // Query con JOIN para obtener el nombre del remitente
+    const query = `
             SELECT 
                 n.id,
                 n.user_id,
@@ -27,40 +27,39 @@ const getContactRequestNotificationsService = async (userId) => {
             WHERE n.user_id = ? AND n.type = 'contact_request'
             ORDER BY n.created_at DESC
         `;
-        
-        console.log("📝 Query:", query);
-        console.log("🔗 Parámetros:", [userId]);
 
-        const [notifications] = await pool.execute(query, [userId]);
-        
-        console.log("📊 Contact requests encontradas:", notifications.length);
+    console.log("📝 Query:", query);
+    console.log("🔗 Parámetros:", [userId]);
 
-        // Formatear resultados con nombre del remitente
-        const result = notifications.map((notification) => ({
-            id: notification.id,
-            userId: notification.user_id,
-            content: notification.content,
-            senderName: notification.sender_name,
-            senderLastName: notification.sender_lastName,
-            senderEmail: notification.sender_email,
-            type: notification.type,
-            status: notification.status,
-            isRead: notification.is_read,
-            emailSent: notification.email_sent,
-            emailSentAt: notification.email_sent_at,
-            createdAt: notification.created_at,
-        }));
-        
-        console.log("✅ Contact requests con nombres:", result);
-        return result;
-        
-    } catch (error) {
-        console.error("❌ ERROR en servicio:", error);
-        throw generateErrorsUtils(
-            "Error fetching contact request notifications: " + error.message,
-            500
-        );
-    }
+    const [notifications] = await pool.execute(query, [userId]);
+
+    console.log("📊 Contact requests encontradas:", notifications.length);
+
+    // Formatear resultados con nombre del remitente
+    const result = notifications.map((notification) => ({
+      id: notification.id,
+      userId: notification.user_id,
+      content: notification.content,
+      senderName: notification.sender_name,
+      senderLastName: notification.sender_lastName,
+      senderEmail: notification.sender_email,
+      type: notification.type,
+      status: notification.status,
+      isRead: notification.is_read,
+      emailSent: notification.email_sent,
+      emailSentAt: notification.email_sent_at,
+      createdAt: notification.created_at,
+    }));
+
+    console.log("✅ Contact requests con nombres:", result);
+    return result;
+  } catch (error) {
+    console.error("❌ ERROR en servicio:", error);
+    throw generateErrorsUtils(
+      "Error fetching contact request notifications: " + error.message,
+      500
+    );
+  }
 };
 
 export default getContactRequestNotificationsService;

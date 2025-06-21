@@ -6,9 +6,7 @@ import getContactRequestNotificationsService from "../../services/contactsServic
 // Controlador para manejar la petición de notificaciones de contacto
 const getContactRequestNotificationsController = async (req, res, next) => {
   try {
-    console.log("🚀 Controller ejecutado");
-    console.log("👤 req.user:", req.user);
-    console.log("🔑 Headers:", req.headers.authorization);
+    // Llamamos al servicio para obtener las notificaciones
     const userId = req.user.id;
     const results = await getContactRequestNotificationsService(userId);
 
