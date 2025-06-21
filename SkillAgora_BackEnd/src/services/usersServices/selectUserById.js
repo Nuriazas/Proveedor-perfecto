@@ -33,6 +33,7 @@ const selectUserById = async (nameQuery) => {
 	const [servicesRow] = await pool.query(
 		`
                 SELECT 
+                s.id AS service_id,
                 s.title, 
                 s.description, 
                 s.price, 
