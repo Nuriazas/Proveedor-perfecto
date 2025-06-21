@@ -2,43 +2,41 @@ import brevo from "@getbrevo/brevo";
 import "dotenv/config";
 import generateErrorsUtils from "./generateErrorsUtils.js";
 
-// Configuración de Brevo
+// Configurar API KEY y remitente
 const { SMTP_API_KEY, SMTP_USER } = process.env;
 
-// Verifica que las variables de entorno estén definidas
 const apiInstance = new brevo.TransactionalEmailsApi();
-
-// Configura la clave API de Brevo
 apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, SMTP_API_KEY);
 
-// Función para enviar correos electrónicos utilizando Brevo
+// Función para enviar correo con Brevo
 const sendMailBrevoUtils = async (email, subject, body) => {
-	console.log(email);
-	try {
-		const sendSmtpMail = new brevo.SendSmtpEmail();
-		sendSmtpMail.subject = subject;
-		sendSmtpMail.to = [{ email: email }];
+  console.log("📤 Preparando para enviar correo a:", email);
 
-		sendSmtpMail.htmlContent = body;
+  try {
+    const sendSmtpMail = new brevo.SendSmtpEmail();
 
-		sendSmtpMail.sender = { email: SMTP_USER, name: "SkillAgora" };
+    sendSmtpMail.subject = subject;
+    sendSmtpMail.to = [{ email }];
+    sendSmtpMail.htmlContent = body;
+    sendSmtpMail.sender = {
+      email: SMTP_USER,
+      name: "SkillAgora" // puedes cambiar el nombre si quieres
+    };
 
-		await apiInstance.sendTransacEmail(sendSmtpMail);
-	} catch (error) {
-		console.error("Error al enviar el correo electrónico a Brevo:");
-		if (error.response && error.response.body) {
-			console.error(
-				`Respuets del servidor:`,
-				JSON.stringify(error.response.body, null, 2)
-			);
-		} else {
-			console.log(`Mensaje genérico:`, error.message || error);
-		}
+    const result = await apiInstance.sendTransacEmail(sendSmtpMail);
+    console.log("✅ Correo enviado correctamente:", result);
 
-		throw generateErrorsUtils("Error al enviar el correo electrónico", 500);
-		// console.log(error);
-		// throw generateErrorsUtils('Error al enviar el correo electrónico', 500);
-	}
+  } catch (error) {
+    console.error("❌ Error al enviar el correo electrónico a Brevo:");
+    if (error.response?.body) {
+      console.error("Respuesta del servidor:", JSON.stringify(error.response.body, null, 2));
+    } else {
+      console.error("Mensaje de error:", error.message || error);
+    }
+
+    throw generateErrorsUtils("Error al enviar el correo electrónico", 500);
+  }
 };
 
 export default sendMailBrevoUtils;
+
