@@ -34,7 +34,7 @@ servicesRouter.get("/services/featured", getFeaturedServicesController);
 servicesRouter.get("/service/statistics", getServiceStatisticsController);
 
 // Enpoint actualización servicio/producto
-servicesRouter.put("/service/:action/:serviceId", authMiddleware, updateServiceController);
+servicesRouter.put("/service/:action/:id", authMiddleware, updateServiceController);
 
 servicesRouter.get("/service/:id", getServiceDetailsByIdController);
 
