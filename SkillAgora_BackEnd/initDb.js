@@ -175,43 +175,38 @@ const initDb = async () => {
         FOREIGN KEY (reviewer_id) REFERENCES users(id) ON DELETE CASCADE
     )
 `);
-    
-    // ✅ TABLA NOTIFICATION ACTUALIZADA CON SENDER_ID
     await pool.query(`
-        CREATE TABLE IF NOT EXISTS notification (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT,
-            sender_id INT DEFAULT NULL,
-            content TEXT,
-            type ENUM(
-                'order', 
-                'message', 
-                'system',
-                'review', 
-                'contact_request', 
-                'support'
-            ) DEFAULT 'system',
-            status ENUM(
-                'contact_request_accepted', 
-                'contact_request_rejected', 
-                'contact_request_pending', 
-                'order_placed', 
-                'order_delivered', 
-                'order_completed', 
-                'order_cancelled',
-                'order_in_progress',
-                'review_received', 
-                'message_received', 
-                'system_update'
-            ) DEFAULT 'contact_request_pending',
-            is_read BOOLEAN DEFAULT FALSE,
-            email_sent BOOLEAN DEFAULT FALSE,
-            email_sent_at TIMESTAMP NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE SET NULL
-        )`);
-        
+                    CREATE TABLE IF NOT EXISTS notification (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT,
+                content TEXT,
+                type ENUM(
+                    'order', 
+                    'message', 
+                    'system',
+                    'review', 
+                    'contact_request', 
+                    'support'
+                ) DEFAULT 'system',
+                status ENUM(
+                    'contact_request_accepted', 
+                    'contact_request_rejected', 
+                    'contact_request_pending', 
+                    'order_placed', 
+                    'order_delivered', 
+                    'order_completed', 
+                    'order_cancelled',
+                    'order_in_progress',
+                    'review_received', 
+                    'message_received', 
+                    'system_update'
+                ) DEFAULT 'contact_request_pending',
+                is_read BOOLEAN DEFAULT FALSE,
+                email_sent BOOLEAN DEFAULT FALSE,
+                email_sent_at TIMESTAMP NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )`);
     await pool.query(`
                 CREATE TABLE freelancer_requests (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -235,13 +230,10 @@ const initDb = async () => {
             
             )
             `);
-            
-    // ✅ TABLA NOTIFICATION_HISTORY ACTUALIZADA CON SENDER_ID
     await pool.query(`
             CREATE TABLE IF NOT EXISTS notification_history (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
-                sender_id INT DEFAULT NULL,
                 content TEXT,
                 type ENUM('order', 'message', 'system', 'review', 'support', 'contact_request') DEFAULT 'system',
                 status ENUM(
@@ -256,8 +248,7 @@ const initDb = async () => {
                     'system_update'
                 ) DEFAULT 'contact_request_pending',
                 sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-                FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE SET NULL
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )`);
 
     const createAdminUser = async () => {
@@ -629,56 +620,47 @@ const initDb = async () => {
       }
     };
 
-    // ✅ FUNCIÓN ACTUALIZADA PARA CREAR CONTACT REQUESTS CON SENDER_ID
     const createContactRequests = async () => {
       // Crear notificaciones de contact request del cliente hacia cada freelancer
       // El cliente tiene ID 2, los freelancers empiezan desde ID 3
       const contactMessages = [
         {
           user_id: 3,
-          sender_id: 2,
           content:
             "Hola Ana, me interesa tu trabajo de diseño gráfico. ¿Podrías ayudarme con el branding de mi empresa?",
         },
         {
           user_id: 4,
-          sender_id: 2,
           content:
             "Hola Carlos, necesito desarrollar una plataforma web para mi negocio. ¿Tienes disponibilidad?",
         },
         {
           user_id: 5,
-          sender_id: 2,
           content:
             "Hola María, quiero mejorar la presencia en redes sociales de mi marca. ¿Podemos hablar?",
         },
         {
           user_id: 6,
-          sender_id: 2,
           content:
             "Hola David, tengo varios documentos técnicos que necesito traducir al español. ¿Cuál sería tu tarifa?",
         },
         {
           user_id: 7,
-          sender_id: 2,
           content:
             "Hola Laura, me gustaría que editaras un video promocional para mi empresa. ¿Podrías ayudarme?",
         },
         {
           user_id: 8,
-          sender_id: 2,
           content:
             "Hola Sergio, necesito una pista musical original para un proyecto comercial. ¿Trabajas con ese tipo de encargos?",
         },
         {
           user_id: 9,
-          sender_id: 2,
           content:
             "Hola Elena, requiero automatizar algunos procesos en mi empresa con Python. ¿Podrías asesorarme?",
         },
         {
           user_id: 10,
-          sender_id: 2,
           content:
             "Hola Alberto, estoy planificando una app móvil y necesito un buen diseño UI/UX. ¿Te interesaría el proyecto?",
         },
@@ -687,10 +669,10 @@ const initDb = async () => {
       for (const message of contactMessages) {
         await pool.query(
           `
-					INSERT INTO notification (user_id, sender_id, content, type, status)
-					VALUES (?, ?, ?, 'contact_request', 'contact_request_pending')
+					INSERT INTO notification (user_id, content, type, status)
+					VALUES (?, ?, 'contact_request', 'contact_request_pending')
 				`,
-          [message.user_id, message.sender_id, message.content]
+          [message.user_id, message.content]
         );
       }
     };

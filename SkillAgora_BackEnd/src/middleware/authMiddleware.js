@@ -3,13 +3,18 @@ import jwt from "jsonwebtoken";
 
 // Middleware de autenticación - verifica si el usuario tiene un token válido
 const authMiddleware = (req, res, next) => {
+	// ✅ DEBUG COMPLETO
+	console.log("🔧 MIDDLEWARE - req.headers:", req.headers);
+	console.log("🔧 MIDDLEWARE - authorization header:", req.headers["authorization"]);
+	
 	// Extraemos el token del header 'Authorization' (formato: "Bearer token123")
-	// Split nos ayuda a separar "Bearer" del token real
 	const token = req.headers["authorization"]?.split(" ")[1];
+	
+	console.log("🔧 MIDDLEWARE - token extraído:", token ? `${token.substring(0, 20)}...` : "AUSENTE");
 
 	// Verificamos si se envió un token
 	if (!token) {
-		// Si no hay token, denegamos el acceso con error 401
+		console.log("❌ MIDDLEWARE - No se proporcionó token");
 		return res.status(401).json({
 			message: "Acceso denegado. No se proporcionó token.",
 		});
@@ -17,15 +22,21 @@ const authMiddleware = (req, res, next) => {
 
 	try {
 		// Verificamos que el token sea válido usando la clave secreta
+		console.log("🔧 MIDDLEWARE - JWT_SECRET:", process.env.JWT_SECRET ? "✅ Presente" : "❌ AUSENTE");
+		
 		const verified = jwt.verify(token, process.env.JWT_SECRET);
+		
+		console.log("🔧 MIDDLEWARE - Token verificado:", verified);
 
 		// Si es válido, guardamos la info del usuario en req.user
-		// para que otros middlewares/controladores puedan usarla
 		req.user = verified;
+		
+		console.log("🔧 MIDDLEWARE - req.user seteado:", req.user);
 
 		// Continuamos al siguiente middleware o controlador
 		next();
 	} catch (error) {
+		console.error("❌ MIDDLEWARE - Error verificando token:", error);
 		// Si el token no es válido, devolvemos error 400
 		return res.status(400).json({
 			message: "Token no válido.",
@@ -34,10 +45,3 @@ const authMiddleware = (req, res, next) => {
 };
 
 export default authMiddleware;
-
-// ¿Qué hace este middleware?
-// 1. Se ejecuta ANTES que los controladores
-// 2. Verifica si hay un token en los headers de la petición
-// 3. Valida que el token sea auténtico y no haya expirado
-// 4. Si todo está bien, permite continuar al controlador
-// 5. Si algo falla, bloquea la petición con error
