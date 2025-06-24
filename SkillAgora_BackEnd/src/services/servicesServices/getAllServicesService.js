@@ -16,7 +16,8 @@ const getAllServicesService = async () => {
                 services.user_id,
                 users.name as user_name,
                 users.email as user_email,
-                categories.name as category_name
+                categories.name as category_name,
+                COALESCE(AVG(reviews.rating), 0) AS average_rating,
             FROM services
             JOIN users ON services.user_id = users.id
             JOIN categories ON services.category_id = categories.id

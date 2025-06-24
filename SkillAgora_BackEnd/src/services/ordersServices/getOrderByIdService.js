@@ -8,6 +8,7 @@ const getOrderByIdService = async (orderId, userId) => {
 		const [order] = await pool.query(
 			`SELECT 
                 o.*,
+				s.id AS service_id,
                 s.title as service_title,
                 s.description as service_description,
                 c.name as client_name,
