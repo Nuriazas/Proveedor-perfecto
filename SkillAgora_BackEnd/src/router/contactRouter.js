@@ -3,6 +3,7 @@ import {
 	getContactRequestNotificationsController,
 	sendContactRequestController,
 	acceptContactRequestController,
+	replyToMessageController
 } from "../controllers/contactsControllers/index.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -27,5 +28,7 @@ router.put(
 	authMiddleware,
 	acceptContactRequestController
 );
+
+router.post("/message/:messageId/reply", authMiddleware, replyToMessageController);
 
 export default router;

@@ -7,10 +7,10 @@ const updateServiceService = async (
   const pool = await getPool();
 
   try {
-    // 1. Verificamos que el servicio exista y pertenezca al usuario logueado
+  
     const [service] = await pool.query(
-      "SELECT user_id FROM services WHERE id = ?", // ✅ Campo correcto
-      [id] // ✅ Parámetro correcto
+      "SELECT user_id FROM services WHERE id = ?",
+      [id]
     );
 
     if (service.length === 0) {

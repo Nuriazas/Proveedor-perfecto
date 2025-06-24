@@ -7,6 +7,7 @@ import {
 	acceptOrderService,
 	saveOrderDelivery,
 } from "../../services/ordersServices/index.js";
+import { checkOrderStatusService } from "../../services/ordersServices/createOrderService.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 import getServiceDetailsByIdService from "../../services/servicesServices/getServiceDetailsByIdService.js";
 
@@ -23,7 +24,7 @@ const ordersController = async (req, res, next) => {
 					throw generateErrorsUtils("Falta el ID del servicio", 400);
 				}
 
-				// Aquí podrías obtener el servicio de la BD
+				// Obtener el servicio de la BD
 				const service = await getServiceDetailsByIdService(serviceId);
 				if (!service) {
 					throw generateErrorsUtils("Servicio no encontrado", 404);
@@ -34,7 +35,7 @@ const ordersController = async (req, res, next) => {
 
 				const newOrder = await createOrderService(
 					userId,
-					[serviceId],
+					serviceId,  // CORREGIDO: Ya no se pasa como array
 					total_price,
 					currency_code
 				);
@@ -68,6 +69,22 @@ const ordersController = async (req, res, next) => {
 				res.status(200).send({
 					status: "ok",
 					data: orders,
+				});
+				break;
+			}
+
+			case "checkStatus": {
+				const { serviceId } = req.params;
+
+				if (!serviceId) {
+					throw generateErrorsUtils("Falta el ID del servicio", 400);
+				}
+
+				const orderStatus = await checkOrderStatusService(userId, serviceId);
+
+				res.status(200).send({
+					status: "ok",
+					data: orderStatus
 				});
 				break;
 			}

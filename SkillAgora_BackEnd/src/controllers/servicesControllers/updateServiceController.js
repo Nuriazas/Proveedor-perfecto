@@ -9,7 +9,7 @@ const updateServiceController = async (req, res, next) => {
   switch (action) {
     case "update":
       try {
-        const { title, description, price, delivery_time_days, place } =
+        const { title, description, price, delivery_time_days, place, category_id } =
           req.body;
         const { id } = req.params;
         const userId = req.user.id;
@@ -18,22 +18,10 @@ const updateServiceController = async (req, res, next) => {
           throw generateErrorsUtils("Service ID is required.", 400);
         }
 
-      const fieldsToUpdate = req.body;
-
-      console.log("🚨 Campos para actualizar:", fieldsToUpdate);
-
-       
-       
-      const result = await updateServiceService(fieldsToUpdate, id, userId);
-
-      const updatedService = await getServiceDetailsByIdService(id);
-
+        const fieldsToUpdate = req.body;
+        const result = await updateServiceService(fieldsToUpdate, id, userId);
         const updateService = await getServiceDetailsByIdService(id);
 
-        console.log(
-          "✅ Datos del servicio actualizado que se enviarán al cliente:",
-          updateService
-        );
 
         res.status(200).json({
           success: true,

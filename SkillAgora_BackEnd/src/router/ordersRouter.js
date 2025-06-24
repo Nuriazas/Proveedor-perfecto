@@ -15,6 +15,10 @@ router.post("/orders/:action/:serviceId", authMiddleware, ordersController);
 // localhost:3000/orders/get
 router.get("/orders/:action", authMiddleware, ordersController);
 
+// Verificar estado de orden para un servicio
+// localhost:3000/orders/checkStatus/:serviceId
+router.get("/orders/:action/:serviceId", authMiddleware, ordersController);
+
 // Obtener orden por ID
 // localhost:3000/orders/getById/:orderId
 router.get("/orders/:action/:orderId", authMiddleware, ordersController);

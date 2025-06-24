@@ -23,6 +23,16 @@ const createOrderService = async (
 			throw generateErrorsUtils("No puedes comprar tu propio servicio", 400);
 		}
 
+		// NUEVA VALIDACIÓN: Verificar si ya existe una orden activa para este servicio
+		const [existingOrder] = await pool.query(
+			"SELECT id FROM orders WHERE client_id = ? AND services_id = ? AND status IN ('pending', 'accepted', 'in_progress')",
+			[userId, services_id]
+		);
+
+		if (existingOrder.length > 0) {
+			throw generateErrorsUtils("Ya tienes una orden activa para este servicio", 400);
+		}
+
 		// Crear la orden
 		const [result] = await pool.query(
 			`INSERT INTO orders (
@@ -36,7 +46,7 @@ const createOrderService = async (
             ) VALUES (?, ?, ?, 'pending', ?, ?, NOW())`,
 			[
 				userId,
-				services_id,
+				services_id,  // CORREGIDO: Ya no es array
 				service[0].freelancer_id,
 				total_price,
 				currency_code,
@@ -70,10 +80,37 @@ const createOrderService = async (
 		};
 	} catch (error) {
 		throw generateErrorsUtils(
-			"Error al crear la orden",
+			error.message || "Error al crear la orden",
+			error.httpStatus || 500
+		);
+	}
+};
+
+// NUEVA FUNCIÓN: Verificar estado de orden para un servicio
+const checkOrderStatusService = async (userId, services_id) => {
+	try {
+		const pool = await getPool();
+
+		// Verificar si existe una orden activa para este servicio
+		const [existingOrder] = await pool.query(
+			"SELECT id, status FROM orders WHERE client_id = ? AND services_id = ? AND status IN ('pending', 'accepted', 'in_progress')",
+			[userId, services_id]
+		);
+
+		const hasActiveOrder = existingOrder.length > 0;
+
+		return {
+			hasActiveOrder,
+			orderStatus: hasActiveOrder ? existingOrder[0].status : null,
+			orderId: hasActiveOrder ? existingOrder[0].id : null
+		};
+	} catch (error) {
+		throw generateErrorsUtils(
+			"Error al verificar el estado de la orden",
 			error.httpStatus || 500
 		);
 	}
 };
 
 export default createOrderService;
+export { checkOrderStatusService };
