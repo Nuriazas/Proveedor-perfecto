@@ -43,7 +43,7 @@ servicesRouter.post("/create-service", authMiddleware,createServiceController);
 servicesRouter.get("/services/filters", getAllServicesByFiltersController);
 
 // Crear una nueva valoración (requiere autenticación)
-servicesRouter.post("/newreview", authMiddleware, createReviewController);
+servicesRouter.post("/services/newreview/:service_id", authMiddleware, createReviewController);
 
 // Obtener valoraciones de un freelancer
 servicesRouter.get("/freelancer/:freelancer_id", getFreelancerReviewsController);

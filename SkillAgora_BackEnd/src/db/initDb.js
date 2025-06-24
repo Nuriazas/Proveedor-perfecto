@@ -118,10 +118,12 @@ const initDb = async () => {
                 description TEXT,
                 price DECIMAL(10, 2),
                 delivery_time_days INT,
+                review_id INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 FOREIGN KEY (category_id) REFERENCES categories(id)
+                FOREIGN KEY (review_id) REFERENCES reviews(id) ON DELETE SET NULL
         )
     `);
     await pool.query(`

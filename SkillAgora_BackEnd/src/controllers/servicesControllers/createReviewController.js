@@ -1,16 +1,18 @@
 // Importamos el servicio necesario
-import createReviewService from "../../services/servicesServices/createReviewService.js";
+import createReviewService from "../../services/servicesServices/CreateReviewService.js";
 
 // Controlador para crear una nueva valoración de un servicio
 const createReviewController = async (req, res) => {
 	try {
 		// Extraemos los datos necesarios del request
-		const { order_id, rating, comment } = req.body;
+		const {service_id} = req.params;
+		const { rating, comment } = req.body;
 		const reviewer_id = req.user.id;
 
 		// Llamamos al servicio para crear la valoración
 		const result = await createReviewService(
-			order_id,
+			
+			service_id,
 			reviewer_id,
 			rating,
 			comment
