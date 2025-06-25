@@ -9,6 +9,7 @@ const createServiceService = async ({
 	title,
 	description,
 	price,
+	media_url
 }) => {
 	// Obtener la conexión a la base de datos
 
@@ -35,6 +36,16 @@ const createServiceService = async ({
 		);
 
 		const newServiceId = result.insertId;
+		if (media_url) {
+			await pool.query(
+				`
+                INSERT INTO service_media (service_id, media_url)
+                VALUES (?, ?)
+            `,
+			[newServiceId, media_url]
+		);
+		}
+
 		// Consultar el servicio recién creado para devolverlo
 		const [serviceRows] = await pool.query(
 			`

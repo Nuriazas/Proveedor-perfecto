@@ -38,7 +38,6 @@ const selectUserById = async (nameQuery) => {
         s.price,
         s.place,
         s.delivery_time_days,
-        s.review_id,
         c.name AS category_name, 
         s.created_at,
         s.updated_at

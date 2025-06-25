@@ -1,15 +1,9 @@
 import getAllServicesService from "../../services/servicesServices/getAllServicesService.js";
 
-
-
-
 const getAllServicesController = async (req, res) => {
 	try {
 		const services = await getAllServicesService();
-		
-		// ✅ AGREGAR ESTE LOG TEMPORAL
-		console.log("🔧 SERVICIOS devueltos desde el backend:", JSON.stringify(services[0], null, 2));
-		
+
 		if (!services || services.length === 0) {
 			return res.status(404).json({
 				success: false,

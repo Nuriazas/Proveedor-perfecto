@@ -9,10 +9,10 @@ import routes from "./router/index.js";
 // Importar dependencias
 const server = express();
 
-// Configurar el servidor para que pueda recibir datos en formato JSON
-server.use(express.json());
 // Configurar CORS para permitir solicitudes desde cualquier origen
 server.use(cors());
+// Configurar el servidor para que pueda recibir datos en formato JSON
+server.use(express.json());
 // Configurar el servidor para que pueda recibir archivos
 server.use(
 	fileUpload({
@@ -24,8 +24,8 @@ server.use(
 	})
 );
 
-// Middleware para servir archivos estáticos (imágenes en /public)
-server.use("/public", express.static("public"));
+// Middleware para servir archivos estáticos
+server.use("/uploads", express.static("src/uploads"));
 
 // Cargar las variables de entorno desde el archivo .env
 dotenv.config();

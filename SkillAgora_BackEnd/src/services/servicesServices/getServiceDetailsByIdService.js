@@ -31,6 +31,7 @@ const getServiceDetailsByIdService = async (serviceId) => {
 			JOIN categories c ON s.category_id = c.id
 			WHERE s.id = ?
             `;
+			
 
 		const [rows] = await pool.query(query, [serviceId]);
 
