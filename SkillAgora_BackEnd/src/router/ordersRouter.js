@@ -6,6 +6,11 @@ const router = express.Router();
 
 // Rutas de órdenes
 
+// Entregar orden
+// localhost:3000/orders/delivered/:orderId
+// BODY: { deliveryUrl: String }
+router.post("/orders/:action/:orderId", authMiddleware, ordersController);
+
 // Crear una orden
 // localhost:3000/orders/create/:serviceId
 // BODY: { services_id: Array, total_price: Number, currency_code: String, ... }
@@ -45,9 +50,6 @@ router.delete("/orders/:action/:orderId", authMiddleware, ordersController);
 // localhost:3000/orders/accept/:orderId
 router.put("/orders/:action/:orderId", authMiddleware, ordersController);
 
-// Entregar orden
-// localhost:3000/orders/delivered/:orderId
-// BODY: { deliveryUrl: String }
-router.post("/orders/:action/:orderId", authMiddleware, ordersController);
+
 
 export default router;

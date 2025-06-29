@@ -10,11 +10,10 @@ const saveOrderDelivery = async (
 	try {
 		const pool = await getPool();
 
-		// Insertar el URL en orders_deliveries (puedes añadir más campos si quieres)
 		const [result] = await pool.query(
 			`INSERT INTO order_deliveries (order_id, message, user_id, file_url, delivered_at)
-            VALUES (?, ?,?, ?, NOW())`,
-			[orderId, userId, deliveryUrl, message]
+            VALUES (?, ?, ?, ?, NOW())`,
+			[orderId, message, userId, deliveryUrl]
 		);
 
 		return {
@@ -26,6 +25,7 @@ const saveOrderDelivery = async (
 			deliveredAt: new Date(),
 		};
 	} catch (error) {
+		console.error("Error en saveOrderDelivery:", error);
 		throw generateErrorsUtils(
 			"Error al guardar la entrega",
 			error.httpStatus || 500

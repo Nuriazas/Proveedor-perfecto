@@ -138,17 +138,20 @@ const initDb = async () => {
     `);
     
     await pool.query(`
-            CREATE TABLE IF NOT EXISTS orders (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                client_id INT,
-                services_id INT,
-                freelancer_id INT,
-                status ENUM('pending', 'in_progress', 'delivered', 'completed', 'cancelled') DEFAULT 'pending',
-                total_price DECIMAL(10,2),
-                ordered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                currency_code VARCHAR(10) DEFAULT 'USD'
-        )
-    `);
+    CREATE TABLE IF NOT EXISTS orders (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        client_id INT,
+        services_id INT,
+        freelancer_id INT,
+        status ENUM('pending', 'in_progress', 'delivered', 'completed', 'cancelled') DEFAULT 'pending',
+        total_price DECIMAL(10,2),
+        delivery_url VARCHAR(500) DEFAULT NULL,
+        delivered_at TIMESTAMP NULL DEFAULT NULL,
+        ordered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        currency_code VARCHAR(10) DEFAULT 'USD'
+    )
+`);
     
     await pool.query(`
             CREATE TABLE IF NOT EXISTS order_deliveries (

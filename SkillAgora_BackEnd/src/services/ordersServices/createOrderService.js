@@ -23,7 +23,7 @@ const createOrderService = async (
 			throw generateErrorsUtils("No puedes comprar tu propio servicio", 400);
 		}
 
-		// NUEVA VALIDACIÓN: Verificar si ya existe una orden activa para este servicio
+		// Verifica si ya existe una orden activa para este servicio
 		const [existingOrder] = await pool.query(
 			"SELECT id FROM orders WHERE client_id = ? AND services_id = ? AND status IN ('pending', 'accepted', 'in_progress')",
 			[userId, services_id]
@@ -46,7 +46,7 @@ const createOrderService = async (
             ) VALUES (?, ?, ?, 'pending', ?, ?, NOW())`,
 			[
 				userId,
-				services_id,  // CORREGIDO: Ya no es array
+				services_id,
 				service[0].freelancer_id,
 				total_price,
 				currency_code,
@@ -86,7 +86,7 @@ const createOrderService = async (
 	}
 };
 
-// NUEVA FUNCIÓN: Verificar estado de orden para un servicio
+// Verifica estado de orden para un servicio
 const checkOrderStatusService = async (userId, services_id) => {
 	try {
 		const pool = await getPool();

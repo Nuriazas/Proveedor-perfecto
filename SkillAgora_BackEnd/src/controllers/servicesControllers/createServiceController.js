@@ -16,13 +16,6 @@ const createServiceController = async (req, res, next) => {
 		}
 
 		const { category_name, title, description, price, place} = req.body;
-		
-		console.log("=== DEBUG ARCHIVO ===");
-		console.log("req.files:", req.files);
-		console.log("req.body:", req.body);
-		console.log("Headers:", req.headers);
-		console.log("Content-Type:", req.headers['content-type']);
-		console.log("=====================");
 
 		if (!category_name || !title || !description || !price || !place) {
 			return res.status(400).send({
@@ -31,7 +24,6 @@ const createServiceController = async (req, res, next) => {
 			});
 		}
 		
-
 		let media_url = null;
 
 		if (req.files && req.files.img) {
@@ -41,8 +33,6 @@ const createServiceController = async (req, res, next) => {
 			media_url = fileName;
 			
 		}
-
-		console.log("media_url que se enviará al servicio:", media_url);
 
 		const newService = await createServiceService({
 			user_id,

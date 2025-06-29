@@ -124,31 +124,36 @@ const ordersController = async (req, res, next) => {
 			}
 
 			case "delivered": {
-				const { orderId } = req.params;
-				const { deliveryUrl } = req.body;
+			const { orderId } = req.params;
+			const { deliveryUrl } = req.body;
 
-				if (!deliveryUrl) {
-					throw generateErrorsUtils(
-						"Debe proporcionar la URL de la entrega",
-						400
-					);
-				}
-
-				const deliveryRecord = await saveOrderDelivery(
-					orderId,
-					deliveryUrl,
-					userId
+			if (!deliveryUrl) {
+				throw generateErrorsUtils(
+					"Debe proporcionar la URL de la entrega",
+					400
 				);
-
-				await updateOrderService(userId, orderId, { status: "delivered" });
-
-				res.status(200).send({
-					status: "ok",
-					message: "Entrega registrada correctamente",
-					data: deliveryRecord,
-				});
-				break;
 			}
+
+			// Guardar en order_deliveries
+			const deliveryRecord = await saveOrderDelivery(
+				orderId,
+				deliveryUrl,
+				userId
+			);
+
+			// Actualizar orden con status Y delivery_url
+			await updateOrderService(userId, orderId, { 
+				status: "delivered",
+				delivery_url: deliveryUrl
+			});
+
+			res.status(200).send({
+				success: true,
+				message: "Entrega registrada correctamente",
+				data: deliveryRecord,
+			});
+			break;
+}
 
 			case "delete": {
 				const { orderId: deleteOrderId } = req.params;

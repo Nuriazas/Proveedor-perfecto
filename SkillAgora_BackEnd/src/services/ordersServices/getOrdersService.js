@@ -5,7 +5,6 @@ const getOrdersService = async (userId, filters = {}) => {
   try {
     const pool = await getPool();
 
-    // ✅ Query base SIN WHERE inicial
     let query = `
       SELECT 
           o.id,
@@ -60,15 +59,7 @@ const getOrdersService = async (userId, filters = {}) => {
     // Ordenar por fecha de creación
     query += " ORDER BY o.ordered_at DESC";
 
-    console.log("🗄️ Query final:", query);
-    console.log("🔗 Parámetros:", queryParams);
-
     const [orders] = await pool.query(query, queryParams);
-
-    console.log("📦 Orders encontradas:", orders.length);
-    if (orders.length > 0) {
-      console.log("👀 Primera order:", orders[0]);
-    }
 
     return orders;
   } catch (error) {

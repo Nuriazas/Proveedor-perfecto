@@ -37,7 +37,7 @@ const insertUserService = async (
             <body>
                 <h1>Bienvenido a SkillAgora</h1>
                 <p>Para activar tu cuenta, haz clic en el siguiente enlace:</p>
-                <a href="${process.env.VITE_URL_API}users/validate/${registrationCode}">Activar cuenta</a>
+                <a href="http://localhost:3000/users/validate/${registrationCode}">Activar cuenta</a>
             </body> 
         </html>
     `;
