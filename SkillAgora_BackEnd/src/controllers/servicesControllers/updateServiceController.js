@@ -36,9 +36,9 @@ const updateServiceController = async (req, res, next) => {
     case "delete":
       try {
         const userId = req.user.id;
-        const { serviceId } = req.params;
+        const { id } = req.params;
 
-        if (!serviceId) {
+        if (!id) {
           // ✅ Corregido nombre de variable
           throw generateErrorsUtils("Service ID is required.", 400);
         }
@@ -48,7 +48,7 @@ const updateServiceController = async (req, res, next) => {
         // ✅ Verificar que el servicio pertenezca al usuario
         const [service] = await pool.query(
           "SELECT user_id FROM services WHERE id = ?",
-          [serviceId]
+          [id]
         );
 
         if (service.length === 0) {
