@@ -1,5 +1,6 @@
 import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 const getServiceDetailsByIdService = async (serviceId) => {
 	try {
@@ -38,13 +39,24 @@ const getServiceDetailsByIdService = async (serviceId) => {
 		if (rows.length === 0) {
 			throw generateErrorsUtils("Service not found", 404);
 		}
-            console.log("🔍 Resultado de getServiceDetailsByIdService:", rows[0]);
 
-		return rows[0];
+		// Procesar el resultado para agregar precio formateado
+		const service = rows[0];
+		const processedService = {
+			...service,
+			// Agregar precio formateado con símbolo de dólar
+			price_formatted: priceUtils.formatPrice(service.price, 'USD'),
+			// Mantener el precio original como número para cálculos
+			price_number: parseFloat(service.price) || 0
+		};
+
+		console.log("🔍 Resultado de getServiceDetailsByIdService:", processedService);
+
+		return processedService;
 	} catch (error) {
-            console.error("❌ Error en getServiceDetailsByIdService:", error);
-            throw error;
-      }
+		console.error("❌ Error en getServiceDetailsByIdService:", error);
+		throw error;
+	}
 };
 
 export default getServiceDetailsByIdService;

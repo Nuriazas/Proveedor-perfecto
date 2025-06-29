@@ -1,5 +1,6 @@
 import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 const selectUserById = async (nameQuery) => {
   const pool = await getPool();
@@ -15,6 +16,7 @@ const selectUserById = async (nameQuery) => {
                 u.avatar,
                 u.role,
                 u.bio,
+                u.created_at,
                 COALESCE(AVG(r.rating), 0) AS average_rating
                 FROM users u
                 LEFT JOIN orders o ON o.client_id = u.id
@@ -82,16 +84,25 @@ const selectUserById = async (nameQuery) => {
     );
   delete user.id; // Eliminar el ID del usuario para evitar conflictos con el ID de los servicios
   const userData = {
-  email: user.email,
-  name: user.name,
-  lastName: user.lastName,
-  avatar: user.avatar,
-  role: user.role,
-  bio: user.bio
-};
+    email: user.email,
+    name: user.name,
+    lastName: user.lastName,
+    avatar: user.avatar,
+    role: user.role,
+    bio: user.bio,
+    created_at: user.created_at
+  };
+
+  // Procesar servicios para agregar precios formateados
+  const processedServices = servicesRow.map(service => ({
+    ...service,
+    price_formatted: priceUtils.formatPrice(service.price, 'USD'),
+    price_number: parseFloat(service.price) || 0
+  }));
+
   return {
       ...userData,
-      services: servicesRow,
+      services: processedServices,
       average_rating,
       reviews: reviewsRow,  
       };

@@ -1,5 +1,6 @@
 import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 const getAllServicesService = async () => {
 	try {
@@ -37,11 +38,15 @@ const getAllServicesService = async () => {
         `;
 
 		const [rows] = await pool.execute(query);
-			const processedRows = rows.map(row => ({
+		const processedRows = rows.map(row => ({
 			...row,
 			media: row.media || [], // Si media es null, usar array vacío
 			rating: parseFloat(row.average_rating) || 0,
-			reviews: parseInt(row.review_count) || 0
+			reviews: parseInt(row.review_count) || 0,
+			// Agregar precio formateado con símbolo de dólar
+			price_formatted: priceUtils.formatPrice(row.price, 'USD'),
+			// Mantener el precio original como número para cálculos
+			price_number: parseFloat(row.price) || 0
 		}));
 
 		return processedRows;

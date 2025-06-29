@@ -1,4 +1,5 @@
 import getPool from "../../db/getPool.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 // Servicio para obtener todas las valoraciones de un freelancer
 const getFreelancerReviewsService = async (freelancerId) => {
@@ -49,8 +50,14 @@ const getFreelancerReviewsService = async (freelancerId) => {
 			1
 		);
 
+		// Procesar reviews para agregar precios formateados
+		const processedReviews = reviews.map(review => ({
+			...review,
+			total_price_formatted: priceUtils.formatPrice(review.total_price, 'USD')
+		}));
+
 		return {
-			reviews,
+			reviews: processedReviews,
 			statistics: {
 				averageRating,
 				totalReviews: avgResult[0].total_reviews,

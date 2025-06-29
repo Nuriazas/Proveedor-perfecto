@@ -9,8 +9,10 @@ import {
   requestFreelancerStatusController,
   changePasswordUser,
   getProfile,
+  getCurrentUserProfileController,
   updateUserController,
   sendForgotPassCodeController,
+  logoutUserController,
 } from "../controllers/usersControllers/index.js";
 
 import registerUserValidator from "../validators/registerUserValidator.js";
@@ -31,6 +33,9 @@ router.get("/users/validate/:registrationCode", validateRegistrationCode, valida
 // Login
 router.post("/users/login", loginUserValidator, loginUserController);
 
+// Logout
+router.post("/users/logout", logoutUserController);
+
 // Subida de foto
 router.post("/users/upload", uploadProfilePhotoController);
 
@@ -40,6 +45,7 @@ router.get("/users/freelancers/:id", getFreelancerByIdController);
 router.post("/users/request-freelancer-status/:userId", authMiddleware, requestFreelancerStatusController);
 
 // Perfil
+router.get("/users/profile", authMiddleware, getCurrentUserProfileController);
 router.get("/users/profile/:name", authMiddleware, getProfile);
 
 //  Cambio de contraseña

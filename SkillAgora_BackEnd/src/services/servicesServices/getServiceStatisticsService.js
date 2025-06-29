@@ -3,6 +3,7 @@
 // Importamos la función para obtener la conexión a la base de datos
 import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 // Este servicio obtiene estadísticas de los servicios disponibles en la base de datos
 const getServiceStatisticsService = async () => {
@@ -46,10 +47,13 @@ const getServiceStatisticsService = async () => {
 			total_services: parseInt(stats.total_services || 0),
 			// Convertimos el precio promedio a número decimal con 2 decimales (si viene null usamos 0)
 			average_price: parseFloat(stats.average_price || 0).toFixed(2),
+			average_price_formatted: priceUtils.formatPrice(stats.average_price, 'USD'),
 			// Convertimos el precio mínimo a número decimal con 2 decimales
 			min_price: parseFloat(stats.min_price || 0).toFixed(2),
+			min_price_formatted: priceUtils.formatPrice(stats.min_price, 'USD'),
 			// Convertimos el precio máximo a número decimal con 2 decimales
 			max_price: parseFloat(stats.max_price || 0).toFixed(2),
+			max_price_formatted: priceUtils.formatPrice(stats.max_price, 'USD'),
 			// Redondeamos el tiempo promedio de entrega al número entero más cercano
 			average_delivery_time: Math.round(stats.average_delivery_time || 0),
 			// Añadimos los datos del último servicio (desestructurado del objeto lastService)
@@ -59,4 +63,5 @@ const getServiceStatisticsService = async () => {
 		throw generateErrorsUtils("Error fetching service statistics.", 500, error);
 	}
 };
+
 export default getServiceStatisticsService;

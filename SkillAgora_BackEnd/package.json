@@ -15,6 +15,7 @@
 		"@getbrevo/brevo": "^2.2.0",
 		"bcrypt": "^6.0.0",
 		"brevo": "^1.0.0",
+		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
 		"dotenv": "^16.5.0",
 		"express": "^5.1.0",

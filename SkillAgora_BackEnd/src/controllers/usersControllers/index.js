@@ -6,9 +6,11 @@ import getAllFreelancersController from "./getAllFreelancersController.js";
 import getFreelancerByIdController from "./getFreelancerByIdController.js";
 import requestFreelancerStatusController from "../contactsControllers/requestFreelancerStatusController.js";
 import getProfile from "./getProfile.js";
+import getCurrentUserProfileController from "./getCurrentUserProfileController.js";
 import changePasswordUser from "./changePasswordUser.js";
 import sendForgotPassCodeController from "./sendForgotPassCodeController.js";
 import updateUserController from "./updateUserController.js";
+import logoutUserController from "./logoutUserController.js";
 
 
 export {
@@ -20,7 +22,9 @@ export {
 	uploadProfilePhotoController,
 	requestFreelancerStatusController,
 	getProfile,
+	getCurrentUserProfileController,
 	changePasswordUser,
 	sendForgotPassCodeController,
-	updateUserController
+	updateUserController,
+	logoutUserController
 };

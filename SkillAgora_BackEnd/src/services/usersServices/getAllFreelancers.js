@@ -1,5 +1,6 @@
 // Importamos la función que nos da la conexión a la base de datos
 import getPool from "../../db/getPool.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 // Servicio para obtener todos los usuarios que son freelancers con datos completos
 async function getAllFreelancers() {
@@ -72,10 +73,13 @@ async function getAllFreelancers() {
 				...freelancer,
 				// Formateamos el rating a 1 decimal
 				average_rating: parseFloat(freelancer.average_rating).toFixed(1),
-				// Formateamos precios a 2 decimales
+				// Formateamos precios a 2 decimales y agregamos símbolo de dólar
 				average_service_price: parseFloat(freelancer.average_service_price).toFixed(2),
+				average_service_price_formatted: priceUtils.formatPrice(freelancer.average_service_price, 'USD'),
 				min_service_price: parseFloat(freelancer.min_service_price).toFixed(2),
+				min_service_price_formatted: priceUtils.formatPrice(freelancer.min_service_price, 'USD'),
 				max_service_price: parseFloat(freelancer.max_service_price).toFixed(2),
+				max_service_price_formatted: priceUtils.formatPrice(freelancer.max_service_price, 'USD'),
 				// Formateamos tiempo de entrega
 				avg_delivery_time: Math.round(freelancer.avg_delivery_time),
 				// Convertimos a números enteros
@@ -83,6 +87,7 @@ async function getAllFreelancers() {
 				total_reviews: parseInt(freelancer.total_reviews),
 				// Añadimos campo para compatibilidad con frontend actual
 				hourly_rate: freelancer.average_service_price, // Alias para compatibilidad
+				hourly_rate_formatted: priceUtils.formatPrice(freelancer.average_service_price, 'USD'),
 				rating: freelancer.average_rating // Alias para compatibilidad
 			};
 		});

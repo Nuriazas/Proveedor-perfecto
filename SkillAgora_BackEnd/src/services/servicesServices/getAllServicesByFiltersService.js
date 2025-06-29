@@ -1,5 +1,6 @@
 // Importamos la conexión a la base de datos
 import getPool from "../../db/getPool.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 // Función que obtiene todos los servicios según filtros aplicados
 const getAllServicesByFiltersService = async (filters) => {
@@ -90,7 +91,16 @@ const getAllServicesByFiltersService = async (filters) => {
   // Ejecutamos la query final con los valores
   const [rows] = await pool.query(query, values);
 
-  return rows; // Retornamos el array de servicios filtrados
+  // Procesar los resultados para agregar precio formateado
+  const processedRows = rows.map(row => ({
+    ...row,
+    // Agregar precio formateado con símbolo de dólar
+    price_formatted: priceUtils.formatPrice(row.price, 'USD'),
+    // Mantener el precio original como número para cálculos
+    price_number: parseFloat(row.price) || 0
+  }));
+
+  return processedRows; // Retornamos el array de servicios filtrados
 };
 
 export default getAllServicesByFiltersService;

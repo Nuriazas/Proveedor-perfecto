@@ -2,6 +2,7 @@
 
 // Importamos la función que nos da la conexión a la base de datos
 import getPool from "../../db/getPool.js";
+import priceUtils from "../../utils/priceUtils.js";
 
 // Servicio para obtener servicios populares/destacados ordenados por popularidad
 const getFeaturedServices = async () => {
@@ -47,9 +48,13 @@ const getFeaturedServices = async () => {
 		// Ejecutamos la consulta en la base de datos
 		const [featuredServices] = await pool.execute(query);
 
-		// Procesamiento post-consulta: formateamos el rating a 1 decimal
+		// Procesamiento post-consulta: formateamos el rating y agregamos precio formateado
 		featuredServices.forEach((service) => {
 			service.rating = parseFloat(service.rating).toFixed(1);
+			// Agregar precio formateado con símbolo de dólar
+			service.price_formatted = priceUtils.formatPrice(service.price, 'USD');
+			// Mantener el precio original como número para cálculos
+			service.price_number = parseFloat(service.price) || 0;
 		});
 
 		// Devolvemos los servicios destacados al controlador

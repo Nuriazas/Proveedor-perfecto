@@ -1,20 +1,17 @@
 // Importamos la librería para manejar tokens JWT (JSON Web Tokens)
 import jwt from "jsonwebtoken";
+import secureLogger from "../utils/secureLogger.js";
 
 // Middleware de autenticación - verifica si el usuario tiene un token válido
 const authMiddleware = (req, res, next) => {
-	// ✅ DEBUG COMPLETO
-	console.log("🔧 MIDDLEWARE - req.headers:", req.headers);
-	console.log("🔧 MIDDLEWARE - authorization header:", req.headers["authorization"]);
+	
+	secureLogger.request(req.method, req.path, !!req.cookies?.token);
 	
 	// Extraemos el token del header 'Authorization' (formato: "Bearer token123")
-	const token = req.headers["authorization"]?.split(" ")[1];
+	const token = req.cookies?.token || null;
 	
-	console.log("🔧 MIDDLEWARE - token extraído:", token ? `${token.substring(0, 20)}...` : "AUSENTE");
-
-	// Verificamos si se envió un token
 	if (!token) {
-		console.log("❌ MIDDLEWARE - No se proporcionó token");
+		secureLogger.auth.failure("No se encontró token en cookies");
 		return res.status(401).json({
 			message: "Acceso denegado. No se proporcionó token.",
 		});
@@ -22,21 +19,21 @@ const authMiddleware = (req, res, next) => {
 
 	try {
 		// Verificamos que el token sea válido usando la clave secreta
-		console.log("🔧 MIDDLEWARE - JWT_SECRET:", process.env.JWT_SECRET ? "✅ Presente" : "❌ AUSENTE");
+		secureLogger.info("Verificando token...");
 		
 		const verified = jwt.verify(token, process.env.JWT_SECRET);
 		
-		console.log("🔧 MIDDLEWARE - Token verificado:", verified);
+		secureLogger.auth.tokenVerified();
 
 		// Si es válido, guardamos la info del usuario en req.user
 		req.user = verified;
 		
-		console.log("🔧 MIDDLEWARE - req.user seteado:", req.user);
+		secureLogger.auth.success(req.user.id);
 
 		// Continuamos al siguiente middleware o controlador
 		next();
 	} catch (error) {
-		console.error("❌ MIDDLEWARE - Error verificando token:", error);
+		secureLogger.error("Error verificando token", error);
 		// Si el token no es válido, devolvemos error 400
 		return res.status(400).json({
 			message: "Token no válido.",
