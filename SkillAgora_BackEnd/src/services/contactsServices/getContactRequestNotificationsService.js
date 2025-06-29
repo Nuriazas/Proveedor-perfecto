@@ -24,7 +24,7 @@ const getContactRequestNotificationsService = async (userId) => {
                 sender.email AS sender_email
             FROM notification n
             LEFT JOIN users sender ON n.sender_id = sender.id
-            WHERE n.user_id = ? AND n.type = 'contact_request'
+            WHERE n.user_id = ? AND (n.type = 'contact_request' OR n.type = 'review' OR n.type = 'order')
             ORDER BY n.created_at DESC
         `;
 
@@ -33,7 +33,7 @@ const getContactRequestNotificationsService = async (userId) => {
 
     const [notifications] = await pool.execute(query, [userId]);
 
-    console.log("📊 Contact requests encontradas:", notifications.length);
+    console.log("📊 Notificaciones encontradas:", notifications.length);
 
     // Formatear resultados con nombre del remitente
     const result = notifications.map((notification) => ({
@@ -51,7 +51,7 @@ const getContactRequestNotificationsService = async (userId) => {
       createdAt: notification.created_at,
     }));
 
-    console.log("✅ Contact requests con nombres:", result);
+    console.log("✅ Notificaciones con nombres:", result);
     return result;
   } catch (error) {
     console.error("❌ ERROR en servicio:", error);

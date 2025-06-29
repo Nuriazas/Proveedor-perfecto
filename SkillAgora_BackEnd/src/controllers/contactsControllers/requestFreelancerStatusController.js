@@ -7,9 +7,8 @@ import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
 const requestFreelancerStatusController = async (req, res, next) => {
 	try {
-		// Extraemos el userId de los parámetros de la URL usando destructuring
-		const { userId } = req.params;
-		// Le pasamos el userId extraído de los parámetros
+		// Usar SIEMPRE el id del usuario autenticado
+		const userId = req.user.id;
 		const requestId = await requestFreelancerStatusService(userId);
 
 		// Enviamos la respuesta al cliente

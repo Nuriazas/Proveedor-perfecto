@@ -6,6 +6,9 @@ import acceptFreelancerRegisterService from "../../services/adminsServices/accep
 // Importamos utilidad para generar errores personalizados
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
+// Controlador para aceptar solicitud de freelancer
+import acceptFreelancerRequestService from "../../services/adminsServices/acceptFreelancerRequestService.js";
+
 // Controlador para aceptar el registro de un usuario como freelancer
 const acceptFreelancerRegisterController = async (req, res, next) => {
 	try {
@@ -41,4 +44,29 @@ const acceptFreelancerRegisterController = async (req, res, next) => {
 	}
 };
 
-export default acceptFreelancerRegisterController;
+// Controlador para aceptar solicitud de freelancer
+const acceptFreelancerRequestController = async (req, res, next) => {
+	try {
+		console.log('🔄 Controlador: Aceptando solicitud de freelancer...');
+		
+		const notificationId = req.params.notificationId;
+		const adminId = req.user.id;
+		
+		console.log('📝 Datos recibidos:', { notificationId, adminId });
+		
+		const result = await acceptFreelancerRequestService(notificationId, adminId);
+		
+		console.log('✅ Controlador: Solicitud aceptada correctamente');
+		
+		res.status(200).json({
+			status: "ok",
+			data: result
+		});
+		
+	} catch (error) {
+		console.error('❌ Error en acceptFreelancerRequestController:', error);
+		next(error);
+	}
+};
+
+export default acceptFreelancerRequestController;

@@ -6,33 +6,42 @@ import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 // Servicio para solicitar el estatus de freelancer
 const requestFreelancerStatusService = async (userId) => {
 	try {
-		// Obtenemos la conexión a la base de datos desde el pool de conexiones
+		console.log('🔄 Usuario ID:', userId, 'solicita ser freelancer');
+		
 		const pool = await getPool();
-		// Verificar si ya tiene una solicitud pendiente
-		const [existing] = await pool.query(
-			`SELECT * FROM freelancer_requests WHERE user_id = ?`,
+		
+		// Obtener datos del usuario
+		const [userRows] = await pool.query(
+			`SELECT id, name, lastName FROM users WHERE id = ?`,
 			[userId]
 		);
-
-		// Si ya existe una solicitud pendiente, lanzamos un error
-		if (existing.length > 0) {
-			throw generateErrorsUtils("Ya tienes una solicitud pendiente", 400);
+		
+		if (userRows.length === 0) {
+			throw generateErrorsUtils('Usuario no encontrado', 404);
 		}
-
-		// Si no hay solicitudes pendientes, creamos una nueva
-		// Insertamos un nuevo registro en la tabla freelancer_requests
-		// El [result] destructura el resultado de la operación INSERT
+		
+		const user = userRows[0];
+		
+		// Crear notificación para el admin
 		const [result] = await pool.query(
-			`INSERT INTO freelancer_requests (user_id, status) VALUES (?, 'pending')`,
-			[userId] // El ID del usuario que hace la solicitud
+			`INSERT INTO notification (user_id, sender_id, type, content, status, is_read, created_at)
+			 VALUES (1, ?, 'contact_request', ?, 'contact_request_pending', false, NOW())`,
+			[userId, `${user.name} ${user.lastName || ''}`.trim() + ' solicita ser freelancer']
 		);
-
-		// Retornamos el ID autogenerado de la solicitud recién creada
-		return result.insertId;
+		
+		console.log('✅ Notificación creada con ID:', result.insertId);
+		
+		return {
+			success: true,
+			message: 'Solicitud enviada correctamente'
+		};
+		
 	} catch (error) {
+		console.error('❌ Error:', error);
 		if (error.httpStatus) {
 			throw error;
 		}
+		throw generateErrorsUtils('Error interno del servidor', 500);
 	}
 };
 
