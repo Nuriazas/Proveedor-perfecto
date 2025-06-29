@@ -18,14 +18,15 @@ const ordersController = async (req, res, next) => {
 
 		switch (action) {
 			case "create": {
-				const { serviceId } = req.params;
+				const { serviceId, orderId } = req.params;
+				const finalServiceId = serviceId || orderId; // Usar el que esté definido
 
-				if (!serviceId) {
+				if (!finalServiceId) {
 					throw generateErrorsUtils("Falta el ID del servicio", 400);
 				}
 
 				// Obtener el servicio de la BD
-				const service = await getServiceDetailsByIdService(serviceId);
+				const service = await getServiceDetailsByIdService(finalServiceId);
 				if (!service) {
 					throw generateErrorsUtils("Servicio no encontrado", 404);
 				}
@@ -35,7 +36,7 @@ const ordersController = async (req, res, next) => {
 
 				const newOrder = await createOrderService(
 					userId,
-					serviceId,  // CORREGIDO: Ya no se pasa como array
+					finalServiceId,  // CORREGIDO: Ya no se pasa como array
 					total_price,
 					currency_code
 				);
