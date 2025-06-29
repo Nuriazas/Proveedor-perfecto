@@ -3,7 +3,6 @@ import {
 	getCategoriesController,
 	getFeaturedServicesController,
 	uploadServicePhotoController,
-	getServiceStatisticsController,
 	updateServiceController,
 	getServiceDetailsByIdController,
 	getAllServicesController,
@@ -30,8 +29,6 @@ servicesRouter.get("/services/featured", getFeaturedServicesController);
 
 
 
-// Endpoint detalle de un producto/servicio
-servicesRouter.get("/service/statistics", getServiceStatisticsController);
 
 // Enpoint actualización servicio/producto
 servicesRouter.put("/service/:action/:id", authMiddleware, updateServiceController);

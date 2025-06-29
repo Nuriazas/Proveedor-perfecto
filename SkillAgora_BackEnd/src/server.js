@@ -34,7 +34,9 @@ const corsOptions = {
 		'Cache-Control',
 		'Accept',
 		'Origin',
-		'X-Requested-With'
+		'X-Requested-With',
+		'Pragma',
+		'Expires' 
 	],
 	exposedHeaders: ['Set-Cookie']
 };

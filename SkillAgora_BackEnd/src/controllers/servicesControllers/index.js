@@ -1,7 +1,6 @@
 import uploadServicePhotoController from "./uploadServicePhotoController.js";
 import getCategoriesController from "./getCategoriesController.js";
 import getFeaturedServicesController from "./getFeaturedServicesController.js";
-import getServiceStatisticsController from "./getServiceStatisticsController.js";
 import updateServiceController from "./updateServiceController.js";
 import getServiceDetailsByIdController from "./getServiceDetailsByIdController.js";
 import getAllServicesController from "./getAllServicesController.js";
@@ -11,7 +10,6 @@ import createReviewController from "./createReviewController.js";
 import getFreelancerReviewsController from "./getFreelancerReviewsController.js";
 
 export {
-	getServiceStatisticsController,
 	updateServiceController,
 	getCategoriesController,
 	uploadServicePhotoController,
