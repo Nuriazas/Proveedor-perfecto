@@ -11,7 +11,6 @@ const replyToMessageController = async (req, res, next) => {
     console.log("🎯 CONTROLADOR REPLY - replyMessage:", replyMessage);
     console.log("🎯 CONTROLADOR REPLY - currentUserId:", currentUserId);
 
-    // Validaciones
     if (!currentUserId) {
       throw generateErrorsUtils("Usuario no autenticado", 401);
     }
@@ -24,7 +23,6 @@ const replyToMessageController = async (req, res, next) => {
       throw generateErrorsUtils("El mensaje de respuesta es requerido", 400);
     }
 
-    // Llamar al servicio
     const result = await replyToMessageService(
       parseInt(messageId),
       replyMessage.trim(),
@@ -33,7 +31,6 @@ const replyToMessageController = async (req, res, next) => {
 
     console.log("🎯 CONTROLADOR REPLY - Resultado del servicio:", result);
 
-    // Respuesta exitosa
     res.status(201).json({
       success: true,
       message: "Respuesta enviada exitosamente",

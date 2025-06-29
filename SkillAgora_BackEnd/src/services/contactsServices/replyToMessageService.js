@@ -1,6 +1,3 @@
-// ===== 1. SERVICIO =====
-// services/contactsServices/replyToMessageService.js
-
 import getPool from "../../db/getPool.js";
 import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
@@ -12,7 +9,6 @@ const replyToMessageService = async (messageId, replyContent, currentUserId) => 
 
     const pool = await getPool();
 
-    // 1. Buscar el mensaje original y obtener el sender_id
     const [originalMessage] = await pool.query(
       `SELECT 
         n.id,
@@ -23,7 +19,7 @@ const replyToMessageService = async (messageId, replyContent, currentUserId) => 
         sender.lastName AS sender_lastName
       FROM notification n
       LEFT JOIN users sender ON n.sender_id = sender.id
-      WHERE n.id = ? AND n.type = 'contact_request'`,
+      WHERE n.id = ?`,
       [messageId]
     );
 
@@ -37,12 +33,10 @@ const replyToMessageService = async (messageId, replyContent, currentUserId) => 
     console.log("🔧 SERVICIO REPLY - Mensaje original encontrado:", message);
     console.log("🔧 SERVICIO REPLY - Responder a usuario ID:", originalSenderId);
 
-    // 2. Validar que no se esté respondiendo a sí mismo
     if (currentUserId === originalSenderId) {
       throw generateErrorsUtils("No puedes responderte a ti mismo", 400);
     }
 
-    // 3. Verificar que el usuario destinatario existe
     const [targetUser] = await pool.query(
       `SELECT id, name, lastName FROM users WHERE id = ?`,
       [originalSenderId]
@@ -52,7 +46,6 @@ const replyToMessageService = async (messageId, replyContent, currentUserId) => 
       throw generateErrorsUtils("El usuario destinatario no existe", 404);
     }
 
-    // 4. Obtener info del usuario actual (quien responde)
     const [currentUser] = await pool.query(
       `SELECT id, name, lastName FROM users WHERE id = ?`,
       [currentUserId]
@@ -65,7 +58,6 @@ const replyToMessageService = async (messageId, replyContent, currentUserId) => 
     console.log("🔧 SERVICIO REPLY - Usuario destinatario:", targetUser[0]);
     console.log("🔧 SERVICIO REPLY - Usuario actual:", currentUser[0]);
 
-    // 5. Crear la notificación de respuesta
     const [result] = await pool.query(
       `INSERT INTO notification (user_id, sender_id, type, content, is_read) 
        VALUES (?, ?, 'contact_request', ?, false)`,
@@ -74,7 +66,6 @@ const replyToMessageService = async (messageId, replyContent, currentUserId) => 
 
     console.log("🔧 SERVICIO REPLY - Notificación creada con ID:", result.insertId);
 
-    // 6. Crear entrada en historial
     await pool.query(
       `INSERT INTO notification_history (user_id, sender_id, type, content) 
        VALUES (?, ?, 'contact_request', ?)`,
