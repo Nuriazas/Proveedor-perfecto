@@ -1,9 +1,19 @@
 import createServiceService from "../../services/servicesServices/createServiceService.js";
 import { savePhotoUtils } from "../../utils/photoUtils.js";
+import generateErrorsUtils from "../../utils/generateErrorsUtils.js";
 
 const createServiceController = async (req, res, next) => {
 	try {
 		const user_id = req.user.id;
+		const user_role = req.user.role;
+
+		// Validar que el usuario tenga rol de freelancer
+		if (user_role !== 'freelancer') {
+			return res.status(403).send({
+				status: "error",
+				message: "Solo los freelancers pueden crear servicios. Solicita el cambio de rol a un administrador.",
+			});
+		}
 
 		const { category_name, title, description, price, place} = req.body;
 		
